@@ -24,7 +24,8 @@ Future<User> signInOrCreateAccount(
   } on FirebaseAuthException catch (e) {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Error: ${e.message}')),
+      SnackBar(
+          content: Text('로그인 에러: [error]'.replaceAll('[error]', e.message))),
     );
     return null;
   }
@@ -60,7 +61,8 @@ Future resetPassword({String email, BuildContext context}) async {
   } on FirebaseAuthException catch (e) {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Error: ${e.message}')),
+      SnackBar(
+          content: Text('로그인 에러: [error]'.replaceAll('[error]', e.message))),
     );
     return null;
   }
@@ -138,7 +140,7 @@ Future beginPhoneAuth({
     },
     verificationFailed: (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Error: ${e.message}'),
+        content: Text('로그인 에러: [error]'.replaceAll('[error]', e.message)),
       ));
     },
     codeSent: (verificationId, _) {

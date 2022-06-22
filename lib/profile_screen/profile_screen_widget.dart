@@ -90,7 +90,7 @@ class _ProfileScreenWidgetState extends State<ProfileScreenWidget> {
                                   validateFileFormat(m.storagePath, context))) {
                             showUploadMessage(
                               context,
-                              'Uploading file...',
+                              '사진을 업로드 중입니다.',
                               showLoading: true,
                             );
                             final downloadUrls = (await Future.wait(
@@ -106,7 +106,7 @@ class _ProfileScreenWidgetState extends State<ProfileScreenWidget> {
                                   () => uploadedFileUrl = downloadUrls.first);
                               showUploadMessage(
                                 context,
-                                'Success!',
+                                '사진을 업로드 하였습니다.',
                               );
                             } else {
                               showUploadMessage(
