@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "443748205724",
+    "project_id": "flutter-flow-korea",
+    "storage_bucket": "flutter-flow-korea.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:443748205724:android:ef9b827a8e6451feb85959",
+        "android_client_info": {
+          "package_name": "com.withcenter.flutterflowkorea"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "443748205724-arvh3qoimqohhcda0nmp2eg59dru3n4i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.withcenter.flutterflowkorea",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "443748205724-5hovg70046jtld2df3j8jarqleuvljk3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUkh00BjJFtN7_2H5rkBkE0_S3z7DjTKI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "443748205724-5hovg70046jtld2df3j8jarqleuvljk3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "443748205724-ctuaqqueh1vraqg3psihjdi9b6698u9h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.withcenter.flutterflowkoreadevcommunity"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:443748205724:android:c55eea5ebf41239ab85959",
+        "android_client_info": {
+          "package_name": "com.withcenter.flutterflowkoreadevcommunity"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "443748205724-3eo62qisbq5uf4b3d4knvnr95k3dlcta.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.withcenter.flutterflowkoreadevcommunity",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "443748205724-5hovg70046jtld2df3j8jarqleuvljk3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUkh00BjJFtN7_2H5rkBkE0_S3z7DjTKI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "443748205724-5hovg70046jtld2df3j8jarqleuvljk3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "443748205724-ctuaqqueh1vraqg3psihjdi9b6698u9h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.withcenter.flutterflowkoreadevcommunity"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
