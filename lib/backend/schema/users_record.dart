@@ -38,11 +38,10 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
   String get city;
 
   @nullable
-  @BuiltValueField(wireName: 'blocked_users')
-  BuiltList<DocumentReference> get blockedUsers;
+  bool get hasPhoto;
 
   @nullable
-  bool get hasPhoto;
+  BuiltList<DocumentReference> get blockedUsers;
 
   @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
@@ -56,8 +55,8 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
     ..phoneNumber = ''
     ..gender = ''
     ..city = ''
-    ..blockedUsers = ListBuilder()
-    ..hasPhoto = false;
+    ..hasPhoto = false
+    ..blockedUsers = ListBuilder();
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('users');
@@ -102,5 +101,5 @@ Map<String, dynamic> createUsersRecordData({
           ..phoneNumber = phoneNumber
           ..gender = gender
           ..city = city
-          ..blockedUsers = null
-          ..hasPhoto = hasPhoto));
+          ..hasPhoto = hasPhoto
+          ..blockedUsers = null));

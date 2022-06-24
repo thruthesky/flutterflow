@@ -116,7 +116,7 @@ class _UserBlockListScreenWidgetState extends State<UserBlockListScreenWidget> {
                                 FFButtonWidget(
                                   onPressed: () async {
                                     final usersUpdateData = {
-                                      'blocked_users': FieldValue.arrayRemove(
+                                      'blockedUsers': FieldValue.arrayRemove(
                                           [containerUsersRecord.reference]),
                                     };
                                     await currentUserReference

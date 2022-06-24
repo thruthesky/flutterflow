@@ -11,13 +11,16 @@ abstract class ReportsRecord
   static Serializer<ReportsRecord> get serializer => _$reportsRecordSerializer;
 
   @nullable
-  DocumentReference get post;
-
-  @nullable
-  DocumentReference get user;
-
-  @nullable
   String get reason;
+
+  @nullable
+  DocumentReference get userDocumentReference;
+
+  @nullable
+  DocumentReference get postDocumentReference;
+
+  @nullable
+  DocumentReference get commentDocumentReference;
 
   @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
@@ -48,13 +51,15 @@ abstract class ReportsRecord
 }
 
 Map<String, dynamic> createReportsRecordData({
-  DocumentReference post,
-  DocumentReference user,
   String reason,
+  DocumentReference userDocumentReference,
+  DocumentReference postDocumentReference,
+  DocumentReference commentDocumentReference,
 }) =>
     serializers.toFirestore(
         ReportsRecord.serializer,
         ReportsRecord((r) => r
-          ..post = post
-          ..user = user
-          ..reason = reason));
+          ..reason = reason
+          ..userDocumentReference = userDocumentReference
+          ..postDocumentReference = postDocumentReference
+          ..commentDocumentReference = commentDocumentReference));

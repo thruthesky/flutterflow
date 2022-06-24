@@ -13,9 +13,17 @@ class CommentCreateComponentWidget extends StatefulWidget {
   const CommentCreateComponentWidget({
     Key key,
     this.postDocumentReference,
+    this.depth,
+    this.order,
+    this.commentDocumentReference,
+    this.noOfComments,
   }) : super(key: key);
 
   final DocumentReference postDocumentReference;
+  final int depth;
+  final String order;
+  final DocumentReference commentDocumentReference;
+  final int noOfComments;
 
   @override
   _CommentCreateComponentWidgetState createState() =>
@@ -147,9 +155,12 @@ class _CommentCreateComponentWidgetState
                                 postDocumentReference:
                                     widget.postDocumentReference,
                                 createdAt: getCurrentTimestamp,
-                                order:
-                                    functions.getCommentOrderFromNoOfComments(
-                                        containerPostsRecord.noOfComments),
+                                order: functions.getCommentOrder(
+                                    widget.noOfComments,
+                                    widget.order,
+                                    widget.depth),
+                                depth: functions.increaseInteger(widget.depth),
+                                noOfComments: 0,
                               );
                               var commentsRecordReference =
                                   CommentsRecord.collection.doc();
@@ -163,6 +174,13 @@ class _CommentCreateComponentWidgetState
                               };
                               await widget.postDocumentReference
                                   .update(postsUpdateData);
+                              if ((widget.commentDocumentReference != null)) {
+                                final commentsUpdateData = {
+                                  'noOfComments': FieldValue.increment(1),
+                                };
+                                await widget.commentDocumentReference
+                                    .update(commentsUpdateData);
+                              }
                               Navigator.pop(context);
 
                               setState(() {});

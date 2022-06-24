@@ -173,7 +173,7 @@ class _PostBottomSheetMenuComponentWidgetState
               InkWell(
                 onTap: () async {
                   final usersUpdateData = {
-                    'blocked_users': FieldValue.arrayUnion(
+                    'blockedUsers': FieldValue.arrayUnion(
                         [widget.post.userDocumentReference]),
                   };
                   await currentUserReference.update(usersUpdateData);

@@ -171,7 +171,7 @@ class _OtherUserProfileScreenWidgetState
                         child: InkWell(
                           onTap: () async {
                             final usersUpdateData = {
-                              'blocked_users': FieldValue.arrayUnion([
+                              'blockedUsers': FieldValue.arrayUnion([
                                 otherUserProfileScreenUsersRecord.reference
                               ]),
                             };

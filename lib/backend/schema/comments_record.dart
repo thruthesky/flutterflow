@@ -27,12 +27,24 @@ abstract class CommentsRecord
   String get order;
 
   @nullable
+  int get depth;
+
+  @nullable
+  int get noOfComments;
+
+  @nullable
+  BuiltList<DocumentReference> get likes;
+
+  @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference get reference;
 
   static void _initializeBuilder(CommentsRecordBuilder builder) => builder
     ..content = ''
-    ..order = '';
+    ..order = ''
+    ..depth = 0
+    ..noOfComments = 0
+    ..likes = ListBuilder();
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('comments');
@@ -61,6 +73,8 @@ Map<String, dynamic> createCommentsRecordData({
   DocumentReference postDocumentReference,
   DateTime createdAt,
   String order,
+  int depth,
+  int noOfComments,
 }) =>
     serializers.toFirestore(
         CommentsRecord.serializer,
@@ -69,4 +83,7 @@ Map<String, dynamic> createCommentsRecordData({
           ..userDocumentReference = userDocumentReference
           ..postDocumentReference = postDocumentReference
           ..createdAt = createdAt
-          ..order = order));
+          ..order = order
+          ..depth = depth
+          ..noOfComments = noOfComments
+          ..likes = null));

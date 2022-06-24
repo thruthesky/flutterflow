@@ -292,7 +292,8 @@ class _PostViewScreenWidgetState extends State<PostViewScreenWidget> {
                                             }
                                           },
                                           text: functions.likeText(
-                                              postViewScreenPostsRecord),
+                                              postViewScreenPostsRecord.likes
+                                                  .toList()),
                                           options: FFButtonOptions(
                                             width: 72,
                                             height: 40,
@@ -422,6 +423,11 @@ class _PostViewScreenWidgetState extends State<PostViewScreenWidget> {
                                           child: CommentCreateComponentWidget(
                                             postDocumentReference:
                                                 widget.postReference,
+                                            depth: 0,
+                                            order: functions.emptyString(),
+                                            noOfComments:
+                                                postViewScreenPostsRecord
+                                                    .noOfComments,
                                           ),
                                         );
                                       },

@@ -8,6 +8,7 @@ import '../forum_search_screen/forum_search_screen_widget.dart';
 import '../other_user_profile_screen/other_user_profile_screen_widget.dart';
 import '../post_view_screen/post_view_screen_widget.dart';
 import '../flutter_flow/custom_functions.dart' as functions;
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -402,107 +403,141 @@ class _MainScreenComponentWidgetState extends State<MainScreenComponentWidget> {
               ],
             ),
           ),
-          Container(
-            width: double.infinity,
-            height: 125,
-            decoration: BoxDecoration(
-              color: Color(0xFFEEEEEE),
-            ),
-            child: Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
-              child: FutureBuilder<List<UsersRecord>>(
-                future: queryUsersRecordOnce(
-                  queryBuilder: (usersRecord) => usersRecord
-                      .where('hasPhoto', isEqualTo: true)
-                      .orderBy('created_time', descending: true),
-                  limit: 100,
-                ),
-                builder: (context, snapshot) {
-                  // Customize what your widget looks like when it's loading.
-                  if (!snapshot.hasData) {
-                    return Center(
-                      child: SizedBox(
-                        width: 50,
-                        height: 50,
-                        child: CircularProgressIndicator(
-                          color: FlutterFlowTheme.of(context).primaryColor,
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
+            child: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                    child: Text(
+                      '최근 가입 사용자',
+                      style: FlutterFlowTheme.of(context).bodyText1.override(
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w300,
+                          ),
+                    ),
+                  ),
+                  Container(
+                    width: double.infinity,
+                    height: 125,
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                    ),
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                      child: FutureBuilder<List<UsersRecord>>(
+                        future: queryUsersRecordOnce(
+                          queryBuilder: (usersRecord) => usersRecord
+                              .where('hasPhoto', isEqualTo: true)
+                              .orderBy('created_time', descending: true),
+                          limit: 100,
                         ),
-                      ),
-                    );
-                  }
-                  List<UsersRecord> listViewUsersRecordList = snapshot.data
-                      .where((u) => u.uid != currentUserUid)
-                      .toList();
-                  return ListView.builder(
-                    padding: EdgeInsets.zero,
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: listViewUsersRecordList.length,
-                    itemBuilder: (context, listViewIndex) {
-                      final listViewUsersRecord =
-                          listViewUsersRecordList[listViewIndex];
-                      return Column(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 16, 4, 16),
-                            child: InkWell(
-                              onTap: () async {
-                                await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        OtherUserProfileScreenWidget(
-                                      userDocumentReference:
-                                          listViewUsersRecord.reference,
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Color(0xFFEEEEEE),
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Card(
-                                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                                      color: Color(0xFFF5F5F5),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(32),
-                                      ),
-                                      child: Image.network(
-                                        listViewUsersRecord.photoUrl,
-                                        width: 64,
-                                        height: 64,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    Text(
-                                      valueOrDefault<String>(
-                                        listViewUsersRecord.displayName,
-                                        '...',
-                                      ).maybeHandleOverflow(maxChars: 8),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily: 'Poppins',
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w300,
-                                          ),
-                                    ),
-                                  ],
+                        builder: (context, snapshot) {
+                          // Customize what your widget looks like when it's loading.
+                          if (!snapshot.hasData) {
+                            return Center(
+                              child: SizedBox(
+                                width: 50,
+                                height: 50,
+                                child: CircularProgressIndicator(
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryColor,
                                 ),
                               ),
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
+                            );
+                          }
+                          List<UsersRecord> listViewUsersRecordList = snapshot
+                              .data
+                              .where((u) => u.uid != currentUserUid)
+                              .toList();
+                          return ListView.builder(
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: listViewUsersRecordList.length,
+                            itemBuilder: (context, listViewIndex) {
+                              final listViewUsersRecord =
+                                  listViewUsersRecordList[listViewIndex];
+                              return Column(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0, 16, 4, 16),
+                                    child: InkWell(
+                                      onTap: () async {
+                                        await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                OtherUserProfileScreenWidget(
+                                              userDocumentReference:
+                                                  listViewUsersRecord.reference,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.transparent,
+                                        ),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Card(
+                                              clipBehavior:
+                                                  Clip.antiAliasWithSaveLayer,
+                                              color: Color(0xFFF5F5F5),
+                                              elevation: 0,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(32),
+                                              ),
+                                              child: CachedNetworkImage(
+                                                imageUrl: listViewUsersRecord
+                                                    .photoUrl,
+                                                width: 64,
+                                                height: 64,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                            Text(
+                                              valueOrDefault<String>(
+                                                listViewUsersRecord.displayName,
+                                                '...',
+                                              ).maybeHandleOverflow(
+                                                  maxChars: 8),
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText1
+                                                      .override(
+                                                        fontFamily: 'Poppins',
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.w300,
+                                                      ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

@@ -126,7 +126,10 @@ class _PostListScreenWidgetState extends State<PostListScreenWidget> {
                       pagingController: () {
                         final Query<Object> Function(Query<Object>)
                             queryBuilder = (postsRecord) => postsRecord
-                                .where('category', isEqualTo: widget.category)
+                                .where('category',
+                                    isEqualTo: widget.category != ''
+                                        ? widget.category
+                                        : null)
                                 .orderBy('timestamp', descending: true);
                         if (_pagingController != null) {
                           final query = queryBuilder(PostsRecord.collection);
@@ -147,7 +150,10 @@ class _PostListScreenWidgetState extends State<PostListScreenWidget> {
                             .addPageRequestListener((nextPageMarker) {
                           queryPostsRecordPage(
                             queryBuilder: (postsRecord) => postsRecord
-                                .where('category', isEqualTo: widget.category)
+                                .where('category',
+                                    isEqualTo: widget.category != ''
+                                        ? widget.category
+                                        : null)
                                 .orderBy('timestamp', descending: true),
                             nextPageMarker: nextPageMarker,
                             pageSize: 25,

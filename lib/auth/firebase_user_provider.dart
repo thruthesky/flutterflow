@@ -1,19 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rxdart/rxdart.dart';
 
-class FlutterFlowKoreaDevCommunityFirebaseUser {
-  FlutterFlowKoreaDevCommunityFirebaseUser(this.user);
+class NoCodeDevGroupFirebaseUser {
+  NoCodeDevGroupFirebaseUser(this.user);
   User user;
   bool get loggedIn => user != null;
 }
 
-FlutterFlowKoreaDevCommunityFirebaseUser currentUser;
+NoCodeDevGroupFirebaseUser currentUser;
 bool get loggedIn => currentUser?.loggedIn ?? false;
-Stream<FlutterFlowKoreaDevCommunityFirebaseUser>
-    flutterFlowKoreaDevCommunityFirebaseUserStream() => FirebaseAuth.instance
+Stream<NoCodeDevGroupFirebaseUser> noCodeDevGroupFirebaseUserStream() =>
+    FirebaseAuth.instance
         .authStateChanges()
         .debounce((user) => user == null && !loggedIn
             ? TimerStream(true, const Duration(seconds: 1))
             : Stream.value(user))
-        .map<FlutterFlowKoreaDevCommunityFirebaseUser>((user) =>
-            currentUser = FlutterFlowKoreaDevCommunityFirebaseUser(user));
+        .map<NoCodeDevGroupFirebaseUser>(
+            (user) => currentUser = NoCodeDevGroupFirebaseUser(user));

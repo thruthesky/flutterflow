@@ -54,7 +54,7 @@ class _PostCreateComponentWidgetState extends State<PostCreateComponentWidget> {
           ),
           child: FlutterFlowDropDown(
             initialOption: categoryDropDownValue ??= widget.category,
-            options: ['자유게시판', '질문게시판', '공지사항'],
+            options: ['자유게시판', '질문게시판', '플러터플로 팁', '가입인사', '공지사항'],
             onChanged: (val) => setState(() => categoryDropDownValue = val),
             width: 180,
             height: 50,

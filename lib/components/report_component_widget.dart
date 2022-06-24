@@ -4,6 +4,7 @@ import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../home_screen/home_screen_widget.dart';
+import '../flutter_flow/custom_functions.dart' as functions;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -13,9 +14,11 @@ class ReportComponentWidget extends StatefulWidget {
   const ReportComponentWidget({
     Key key,
     this.post,
+    this.comment,
   }) : super(key: key);
 
   final PostsRecord post;
+  final CommentsRecord comment;
 
   @override
   _ReportComponentWidgetState createState() => _ReportComponentWidgetState();
@@ -42,18 +45,34 @@ class _ReportComponentWidgetState extends State<ReportComponentWidget> {
           ),
           InkWell(
             onTap: () async {
-              final reportsCreateData = createReportsRecordData(
-                post: widget.post.reference,
-                user: currentUserReference,
-                reason: '홍보글',
-              );
-              await ReportsRecord.collection.doc().set(reportsCreateData);
+              if (functions.postHasValue(widget.post)) {
+                final reportsCreateData = createReportsRecordData(
+                  reason: '홍보글',
+                  postDocumentReference: widget.post.reference,
+                  userDocumentReference: widget.post.userDocumentReference,
+                );
+                await ReportsRecord.collection.doc().set(reportsCreateData);
 
-              final usersUpdateData = {
-                'blocked_users':
-                    FieldValue.arrayUnion([widget.post.userDocumentReference]),
-              };
-              await currentUserReference.update(usersUpdateData);
+                final usersUpdateData = {
+                  'blockedUsers': FieldValue.arrayUnion(
+                      [widget.post.userDocumentReference]),
+                };
+                await currentUserReference.update(usersUpdateData);
+              } else {
+                final reportsCreateData = createReportsRecordData(
+                  reason: '홍보글',
+                  userDocumentReference: widget.comment.userDocumentReference,
+                  commentDocumentReference: widget.comment.reference,
+                );
+                await ReportsRecord.collection.doc().set(reportsCreateData);
+
+                final usersUpdateData = {
+                  'blockedUsers': FieldValue.arrayUnion(
+                      [widget.comment.userDocumentReference]),
+                };
+                await currentUserReference.update(usersUpdateData);
+              }
+
               await Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -90,18 +109,34 @@ class _ReportComponentWidgetState extends State<ReportComponentWidget> {
           ),
           InkWell(
             onTap: () async {
-              final reportsCreateData = createReportsRecordData(
-                post: widget.post.reference,
-                user: currentUserReference,
-                reason: '음란성 및 미풍양식을 해치는 글',
-              );
-              await ReportsRecord.collection.doc().set(reportsCreateData);
+              if (functions.postHasValue(widget.post)) {
+                final reportsCreateData = createReportsRecordData(
+                  reason: '음란성 또는 미풍양속을 해치는 글',
+                  postDocumentReference: widget.post.reference,
+                  userDocumentReference: widget.post.userDocumentReference,
+                );
+                await ReportsRecord.collection.doc().set(reportsCreateData);
 
-              final usersUpdateData = {
-                'blocked_users':
-                    FieldValue.arrayUnion([widget.post.userDocumentReference]),
-              };
-              await currentUserReference.update(usersUpdateData);
+                final usersUpdateData = {
+                  'blockedUsers': FieldValue.arrayUnion(
+                      [widget.post.userDocumentReference]),
+                };
+                await currentUserReference.update(usersUpdateData);
+              } else {
+                final reportsCreateData = createReportsRecordData(
+                  reason: '음란성 또는 미풍양속을 해치는 글',
+                  userDocumentReference: widget.comment.userDocumentReference,
+                  commentDocumentReference: widget.comment.reference,
+                );
+                await ReportsRecord.collection.doc().set(reportsCreateData);
+
+                final usersUpdateData = {
+                  'blockedUsers': FieldValue.arrayUnion(
+                      [widget.comment.userDocumentReference]),
+                };
+                await currentUserReference.update(usersUpdateData);
+              }
+
               await Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -138,18 +173,34 @@ class _ReportComponentWidgetState extends State<ReportComponentWidget> {
           ),
           InkWell(
             onTap: () async {
-              final reportsCreateData = createReportsRecordData(
-                post: widget.post.reference,
-                user: currentUserReference,
-                reason: '저작권 침해 또는 명예훼손',
-              );
-              await ReportsRecord.collection.doc().set(reportsCreateData);
+              if (functions.postHasValue(widget.post)) {
+                final reportsCreateData = createReportsRecordData(
+                  reason: '명예훼손 또는 저작권 침해',
+                  postDocumentReference: widget.post.reference,
+                  userDocumentReference: widget.post.userDocumentReference,
+                );
+                await ReportsRecord.collection.doc().set(reportsCreateData);
 
-              final usersUpdateData = {
-                'blocked_users':
-                    FieldValue.arrayUnion([widget.post.userDocumentReference]),
-              };
-              await currentUserReference.update(usersUpdateData);
+                final usersUpdateData = {
+                  'blockedUsers': FieldValue.arrayUnion(
+                      [widget.post.userDocumentReference]),
+                };
+                await currentUserReference.update(usersUpdateData);
+              } else {
+                final reportsCreateData = createReportsRecordData(
+                  reason: '명예훼손 또는 저작권 침해',
+                  userDocumentReference: widget.comment.userDocumentReference,
+                  commentDocumentReference: widget.comment.reference,
+                );
+                await ReportsRecord.collection.doc().set(reportsCreateData);
+
+                final usersUpdateData = {
+                  'blockedUsers': FieldValue.arrayUnion(
+                      [widget.comment.userDocumentReference]),
+                };
+                await currentUserReference.update(usersUpdateData);
+              }
+
               await Navigator.push(
                 context,
                 MaterialPageRoute(

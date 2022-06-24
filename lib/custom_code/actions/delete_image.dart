@@ -9,11 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 Future<String> deleteImage(String imagePath) async {
-  String error;
   try {
     await FirebaseStorage.instance.refFromURL(imagePath).delete();
+    return '';
   } catch (e) {
-    error = e;
+    return e.toString();
   }
-  return error;
 }
