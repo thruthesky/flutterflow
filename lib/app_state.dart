@@ -19,6 +19,8 @@ class FFAppState {
   SharedPreferences prefs;
 
   List<String> temporaryImages = [];
+
+  String postEditCategory = '';
 }
 
 LatLng _latLngFromString(String val) {

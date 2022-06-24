@@ -25,7 +25,7 @@ class _UserBlockListScreenWidgetState extends State<UserBlockListScreenWidget> {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        backgroundColor: FlutterFlowTheme.of(context).primaryColor,
+        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         automaticallyImplyLeading: false,
         leading: InkWell(
           onTap: () async {
@@ -39,7 +39,7 @@ class _UserBlockListScreenWidgetState extends State<UserBlockListScreenWidget> {
           },
           child: Icon(
             Icons.chevron_left,
-            color: Colors.white,
+            color: FlutterFlowTheme.of(context).primaryText,
             size: 36,
           ),
         ),
@@ -47,13 +47,13 @@ class _UserBlockListScreenWidgetState extends State<UserBlockListScreenWidget> {
           '차단한 사용자 목록',
           style: FlutterFlowTheme.of(context).title2.override(
                 fontFamily: 'Poppins',
-                color: Colors.white,
+                color: FlutterFlowTheme.of(context).primaryText,
                 fontSize: 22,
               ),
         ),
         actions: [],
         centerTitle: false,
-        elevation: 2,
+        elevation: 0,
       ),
       backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
       body: SafeArea(
@@ -73,7 +73,7 @@ class _UserBlockListScreenWidgetState extends State<UserBlockListScreenWidget> {
                   itemBuilder: (context, blockedUsersIndex) {
                     final blockedUsersItem = blockedUsers[blockedUsersIndex];
                     return Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                      padding: EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
                       child: FutureBuilder<UsersRecord>(
                         future: UsersRecord.getDocumentOnce(blockedUsersItem),
                         builder: (context, snapshot) {
@@ -93,9 +93,9 @@ class _UserBlockListScreenWidgetState extends State<UserBlockListScreenWidget> {
                           final containerUsersRecord = snapshot.data;
                           return Container(
                             width: double.infinity,
-                            height: 100,
+                            height: 80,
                             decoration: BoxDecoration(
-                              color: Color(0xFFEEEEEE),
+                              color: Colors.transparent,
                             ),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
@@ -142,11 +142,12 @@ class _UserBlockListScreenWidgetState extends State<UserBlockListScreenWidget> {
                                           fontFamily: 'Poppins',
                                           color: Colors.white,
                                         ),
+                                    elevation: 0,
                                     borderSide: BorderSide(
                                       color: Colors.transparent,
-                                      width: 1,
+                                      width: 0,
                                     ),
-                                    borderRadius: 12,
+                                    borderRadius: 3,
                                   ),
                                 ),
                               ],

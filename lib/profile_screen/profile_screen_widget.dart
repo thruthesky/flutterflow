@@ -42,19 +42,21 @@ class _ProfileScreenWidgetState extends State<ProfileScreenWidget> {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        backgroundColor: FlutterFlowTheme.of(context).primaryColor,
+        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        iconTheme:
+            IconThemeData(color: FlutterFlowTheme.of(context).primaryText),
         automaticallyImplyLeading: true,
         title: Text(
           '회원 정보',
           style: FlutterFlowTheme.of(context).title2.override(
                 fontFamily: 'Poppins',
-                color: Colors.white,
+                color: FlutterFlowTheme.of(context).primaryText,
                 fontSize: 22,
               ),
         ),
         actions: [],
         centerTitle: false,
-        elevation: 2,
+        elevation: 0,
       ),
       backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
       body: SafeArea(
@@ -119,6 +121,7 @@ class _ProfileScreenWidgetState extends State<ProfileScreenWidget> {
 
                           final usersUpdateData = createUsersRecordData(
                             photoUrl: uploadedFileUrl,
+                            hasPhoto: true,
                           );
                           await currentUserReference.update(usersUpdateData);
                         },

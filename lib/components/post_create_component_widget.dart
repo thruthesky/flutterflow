@@ -1,6 +1,7 @@
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../backend/firebase_storage/storage.dart';
+import '../flutter_flow/flutter_flow_drop_down.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
@@ -15,7 +16,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PostCreateComponentWidget extends StatefulWidget {
-  const PostCreateComponentWidget({Key key}) : super(key: key);
+  const PostCreateComponentWidget({
+    Key key,
+    this.category,
+  }) : super(key: key);
+
+  final String category;
 
   @override
   _PostCreateComponentWidgetState createState() =>
@@ -25,8 +31,9 @@ class PostCreateComponentWidget extends StatefulWidget {
 class _PostCreateComponentWidgetState extends State<PostCreateComponentWidget> {
   PostsRecord justPosted;
   String uploadedFileUrl = '';
-  TextEditingController contentTextFieldController;
+  String categoryDropDownValue;
   TextEditingController titleTextFieldController;
+  TextEditingController contentTextFieldController;
 
   @override
   void initState() {
@@ -40,42 +47,71 @@ class _PostCreateComponentWidgetState extends State<PostCreateComponentWidget> {
     return Column(
       mainAxisSize: MainAxisSize.max,
       children: [
-        TextFormField(
-          controller: titleTextFieldController,
-          onChanged: (_) => EasyDebounce.debounce(
-            'titleTextFieldController',
-            Duration(milliseconds: 2000),
-            () => setState(() {}),
+        Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Color(0xFFEEEEEE),
           ),
-          autofocus: true,
-          obscureText: false,
-          decoration: InputDecoration(
-            labelText: '제목',
-            enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(
-                color: FlutterFlowTheme.of(context).secondaryText,
-                width: 1,
+          child: FlutterFlowDropDown(
+            initialOption: categoryDropDownValue ??= widget.category,
+            options: ['자유게시판', '질문게시판', '공지사항'],
+            onChanged: (val) => setState(() => categoryDropDownValue = val),
+            width: 180,
+            height: 50,
+            textStyle: FlutterFlowTheme.of(context).bodyText1.override(
+                  fontFamily: 'Poppins',
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal,
+                ),
+            hintText: '게시판 카테고리 선택',
+            fillColor: Colors.white,
+            elevation: 2,
+            borderColor: Color(0xFFBBBBBB),
+            borderWidth: 0,
+            borderRadius: 0,
+            margin: EdgeInsetsDirectional.fromSTEB(12, 4, 12, 4),
+            hidesUnderline: true,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
+          child: TextFormField(
+            controller: titleTextFieldController,
+            onChanged: (_) => EasyDebounce.debounce(
+              'titleTextFieldController',
+              Duration(milliseconds: 2000),
+              () => setState(() {}),
+            ),
+            autofocus: true,
+            obscureText: false,
+            decoration: InputDecoration(
+              labelText: '제목',
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: FlutterFlowTheme.of(context).secondaryText,
+                  width: 1,
+                ),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(4.0),
+                  topRight: Radius.circular(4.0),
+                ),
               ),
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(4.0),
-                topRight: Radius.circular(4.0),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: FlutterFlowTheme.of(context).secondaryText,
+                  width: 1,
+                ),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(4.0),
+                  topRight: Radius.circular(4.0),
+                ),
               ),
             ),
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(
-                color: FlutterFlowTheme.of(context).secondaryText,
-                width: 1,
-              ),
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(4.0),
-                topRight: Radius.circular(4.0),
-              ),
-            ),
+            style: FlutterFlowTheme.of(context).bodyText1.override(
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.normal,
+                ),
           ),
-          style: FlutterFlowTheme.of(context).bodyText1.override(
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.normal,
-              ),
         ),
         Padding(
           padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
@@ -104,6 +140,8 @@ class _PostCreateComponentWidgetState extends State<PostCreateComponentWidget> {
                 ),
                 borderRadius: BorderRadius.circular(0),
               ),
+              filled: true,
+              fillColor: Colors.white,
               contentPadding: EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
             ),
             style: FlutterFlowTheme.of(context).bodyText1.override(
@@ -113,42 +151,40 @@ class _PostCreateComponentWidgetState extends State<PostCreateComponentWidget> {
             maxLines: 10,
           ),
         ),
-        Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(0, 1, 0, 0),
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            constraints: BoxConstraints(
-              maxWidth: MediaQuery.of(context).size.width,
-            ),
-            decoration: BoxDecoration(
-              color: Color(0xFFEEEEEE),
-            ),
-            child: Visibility(
-              visible: functions.hasTemporaryImages(
-                      FFAppState().temporaryImages.toList()) ??
-                  true,
+        if (functions
+                .hasTemporaryImages(FFAppState().temporaryImages.toList()) ??
+            true)
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
+            child: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Color(0xFFEEEEEE),
+              ),
               child: Builder(
                 builder: (context) {
-                  final wrapItemImage =
+                  final uploadedImages =
                       FFAppState().temporaryImages?.toList() ?? [];
-                  return Wrap(
-                    spacing: 0,
-                    runSpacing: 0,
-                    alignment: WrapAlignment.start,
-                    crossAxisAlignment: WrapCrossAlignment.start,
-                    direction: Axis.horizontal,
-                    runAlignment: WrapAlignment.start,
-                    verticalDirection: VerticalDirection.down,
-                    clipBehavior: Clip.none,
-                    children: List.generate(wrapItemImage.length,
-                        (wrapItemImageIndex) {
-                      final wrapItemImageItem =
-                          wrapItemImage[wrapItemImageIndex];
+                  return GridView.builder(
+                    padding: EdgeInsets.zero,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      childAspectRatio: 1,
+                    ),
+                    primary: false,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    itemCount: uploadedImages.length,
+                    itemBuilder: (context, uploadedImagesIndex) {
+                      final uploadedImagesItem =
+                          uploadedImages[uploadedImagesIndex];
                       return Stack(
                         children: [
                           Image.network(
-                            wrapItemImageItem,
-                            width: 100,
+                            uploadedImagesItem,
+                            width: MediaQuery.of(context).size.width * 0.333,
                             height: 100,
                             fit: BoxFit.cover,
                           ),
@@ -164,22 +200,21 @@ class _PostCreateComponentWidgetState extends State<PostCreateComponentWidget> {
                             ),
                             onPressed: () async {
                               await actions.deleteImage(
-                                wrapItemImageItem,
+                                uploadedImagesItem,
                               );
                               setState(() => FFAppState()
                                   .temporaryImages
-                                  .remove(wrapItemImageItem));
+                                  .remove(uploadedImagesItem));
                             },
                           ),
                         ],
                       );
-                    }),
+                    },
                   );
                 },
               ),
             ),
           ),
-        ),
         Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -245,6 +280,9 @@ class _PostCreateComponentWidgetState extends State<PostCreateComponentWidget> {
                     contente: contentTextFieldController.text,
                     userDocumentReference: currentUserReference,
                     timestamp: getCurrentTimestamp,
+                    category: categoryDropDownValue,
+                    hasPhoto: !(functions.isListImagePathEmpty(
+                        FFAppState().temporaryImages.toList())),
                   ),
                   'images': FFAppState().temporaryImages,
                 };
@@ -273,11 +311,12 @@ class _PostCreateComponentWidgetState extends State<PostCreateComponentWidget> {
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
                     ),
+                elevation: 0,
                 borderSide: BorderSide(
                   color: Colors.transparent,
-                  width: 1,
+                  width: 0,
                 ),
-                borderRadius: 12,
+                borderRadius: 3,
               ),
             ),
           ],

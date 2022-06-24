@@ -1,7 +1,5 @@
 import '../components/end_drawer_column_widget.dart';
-import '../components/post_create_button_widget.dart';
-import '../components/post_list_all_category_component_widget.dart';
-import '../flutter_flow/flutter_flow_icon_button.dart';
+import '../components/main_screen_component_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
@@ -21,37 +19,6 @@ class _EntryScreenWidgetState extends State<EntryScreenWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      appBar: AppBar(
-        backgroundColor: FlutterFlowTheme.of(context).primaryColor,
-        automaticallyImplyLeading: false,
-        title: Text(
-          '플러터 코리아',
-          style: FlutterFlowTheme.of(context).title2.override(
-                fontFamily: 'Poppins',
-                color: Colors.white,
-                fontSize: 22,
-              ),
-        ),
-        actions: [
-          PostCreateButtonWidget(),
-          FlutterFlowIconButton(
-            borderColor: Colors.transparent,
-            borderRadius: 30,
-            borderWidth: 1,
-            buttonSize: 60,
-            icon: Icon(
-              Icons.menu,
-              color: Colors.white,
-              size: 30,
-            ),
-            onPressed: () async {
-              scaffoldKey.currentState.openEndDrawer();
-            },
-          ),
-        ],
-        centerTitle: false,
-        elevation: 2,
-      ),
       backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
       endDrawer: Drawer(
         elevation: 16,
@@ -60,7 +27,7 @@ class _EntryScreenWidgetState extends State<EntryScreenWidget> {
       body: SafeArea(
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
-          child: PostListAllCategoryComponentWidget(),
+          child: MainScreenComponentWidget(),
         ),
       ),
     );

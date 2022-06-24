@@ -5,6 +5,7 @@ import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../home_screen/home_screen_widget.dart';
 import '../post_create_screen/post_create_screen_widget.dart';
+import '../post_list_screen/post_list_screen_widget.dart';
 import '../profile_screen/profile_screen_widget.dart';
 import '../sign_in_screen/sign_in_screen_widget.dart';
 import '../user_block_list_screen/user_block_list_screen_widget.dart';
@@ -27,71 +28,94 @@ class _EndDrawerColumnWidgetState extends State<EndDrawerColumnWidget> {
     return Column(
       mainAxisSize: MainAxisSize.max,
       children: [
-        InkWell(
-          onTap: () async {
-            if (loggedIn) {
-              await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ProfileScreenWidget(),
-                ),
-              );
-            } else {
-              await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => SignInScreenWidget(),
-                ),
-              );
-            }
-          },
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
-                child: Container(
-                  width: 120,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFD7D7D7),
-                    shape: BoxShape.circle,
-                  ),
-                  child: AuthUserStreamWidget(
+        Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Color(0xFFEEEEEE),
+          ),
+          child: Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 16),
+            child: InkWell(
+              onTap: () async {
+                if (loggedIn) {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProfileScreenWidget(),
+                    ),
+                  );
+                } else {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SignInScreenWidget(),
+                    ),
+                  );
+                }
+              },
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 64, 0, 0),
                     child: Container(
                       width: 120,
                       height: 120,
-                      clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(
+                        color: Color(0xFFD7D7D7),
                         shape: BoxShape.circle,
                       ),
-                      child: CachedNetworkImage(
-                        imageUrl: valueOrDefault<String>(
-                          currentUserPhoto,
-                          'https://firebasestorage.googleapis.com/v0/b/flutter-flow-korea.appspot.com/o/app-assets%2Fpro-3-Untitled-1.png?alt=media&token=c201475d-1f06-4674-a91b-f80ddaf7358e',
+                      child: AuthUserStreamWidget(
+                        child: Container(
+                          width: 120,
+                          height: 120,
+                          clipBehavior: Clip.antiAlias,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                          ),
+                          child: CachedNetworkImage(
+                            imageUrl: valueOrDefault<String>(
+                              currentUserPhoto,
+                              'https://firebasestorage.googleapis.com/v0/b/flutter-flow-korea.appspot.com/o/app-assets%2Fpro-3-Untitled-1.png?alt=media&token=c201475d-1f06-4674-a91b-f80ddaf7358e',
+                            ),
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
-                child: AuthUserStreamWidget(
-                  child: Text(
-                    valueOrDefault<String>(
-                      currentUserDisplayName,
-                      '앗, 로그인을 해 주세요.',
-                    ),
-                    style: FlutterFlowTheme.of(context).bodyText1.override(
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.normal,
+                  if (loggedIn ?? true)
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
+                      child: AuthUserStreamWidget(
+                        child: Text(
+                          valueOrDefault<String>(
+                            currentUserDisplayName,
+                            '회원 정보 업데이트',
+                          ),
+                          style:
+                              FlutterFlowTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.normal,
+                                  ),
                         ),
-                  ),
-                ),
+                      ),
+                    ),
+                  if (!(loggedIn) ?? true)
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
+                      child: Text(
+                        '앗, 로그인을 해 주세요.',
+                        style: FlutterFlowTheme.of(context).bodyText1.override(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.normal,
+                            ),
+                      ),
+                    ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
         Divider(
@@ -136,7 +160,9 @@ class _EndDrawerColumnWidgetState extends State<EndDrawerColumnWidget> {
             await Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => PostCreateScreenWidget(),
+                builder: (context) => PostCreateScreenWidget(
+                  category: '자유게시판',
+                ),
               ),
             );
           },
@@ -162,6 +188,105 @@ class _EndDrawerColumnWidgetState extends State<EndDrawerColumnWidget> {
               size: 20,
             ),
             tileColor: Color(0x00F5F5F5),
+            dense: false,
+          ),
+        ),
+        Divider(
+          height: 32,
+        ),
+        InkWell(
+          onTap: () async {
+            await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => PostListScreenWidget(
+                  category: '자유게시판',
+                ),
+              ),
+            );
+          },
+          child: ListTile(
+            leading: FaIcon(
+              FontAwesomeIcons.solidCommentAlt,
+            ),
+            title: Text(
+              '자유게시판',
+              style: FlutterFlowTheme.of(context).title3.override(
+                    fontFamily: 'Poppins',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w300,
+                  ),
+            ),
+            trailing: Icon(
+              Icons.arrow_forward_ios,
+              color: Color(0xFF303030),
+              size: 20,
+            ),
+            tileColor: Color(0x00FFFFFF),
+            dense: false,
+          ),
+        ),
+        InkWell(
+          onTap: () async {
+            await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => PostListScreenWidget(
+                  category: '질문게시판',
+                ),
+              ),
+            );
+          },
+          child: ListTile(
+            leading: Icon(
+              Icons.help_rounded,
+            ),
+            title: Text(
+              '질문게시판',
+              style: FlutterFlowTheme.of(context).title3.override(
+                    fontFamily: 'Poppins',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w300,
+                  ),
+            ),
+            trailing: Icon(
+              Icons.arrow_forward_ios,
+              color: Color(0xFF303030),
+              size: 20,
+            ),
+            tileColor: Colors.white,
+            dense: false,
+          ),
+        ),
+        InkWell(
+          onTap: () async {
+            await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => PostListScreenWidget(
+                  category: '공지사항',
+                ),
+              ),
+            );
+          },
+          child: ListTile(
+            leading: Icon(
+              Icons.content_paste,
+            ),
+            title: Text(
+              '공지사항',
+              style: FlutterFlowTheme.of(context).title3.override(
+                    fontFamily: 'Poppins',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w300,
+                  ),
+            ),
+            trailing: Icon(
+              Icons.arrow_forward_ios,
+              color: Color(0xFF303030),
+              size: 20,
+            ),
+            tileColor: Colors.white,
             dense: false,
           ),
         ),
@@ -274,7 +399,7 @@ class _EndDrawerColumnWidgetState extends State<EndDrawerColumnWidget> {
             },
             child: ListTile(
               leading: Icon(
-                Icons.logout,
+                Icons.location_history_sharp,
               ),
               title: Text(
                 '회원 정보 수정',

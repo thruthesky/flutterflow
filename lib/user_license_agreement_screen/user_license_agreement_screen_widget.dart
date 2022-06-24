@@ -30,19 +30,21 @@ class _UserLicenseAgreementScreenWidgetState
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        backgroundColor: FlutterFlowTheme.of(context).primaryColor,
+        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        iconTheme:
+            IconThemeData(color: FlutterFlowTheme.of(context).primaryText),
         automaticallyImplyLeading: true,
         title: Text(
-          'User License Agreement',
+          '회원 가입 약관',
           style: FlutterFlowTheme.of(context).title2.override(
                 fontFamily: 'Poppins',
-                color: FlutterFlowTheme.of(context).primaryBackground,
+                color: FlutterFlowTheme.of(context).primaryText,
                 fontSize: 22,
               ),
         ),
         actions: [],
         centerTitle: false,
-        elevation: 2,
+        elevation: 0,
       ),
       backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
       body: SafeArea(
@@ -54,7 +56,7 @@ class _UserLicenseAgreementScreenWidgetState
               width: double.infinity,
               height: double.infinity,
               decoration: BoxDecoration(
-                color: Color(0xFFEEEEEE),
+                color: Colors.transparent,
               ),
               child: TextFormField(
                 controller: textController,
@@ -68,7 +70,7 @@ class _UserLicenseAgreementScreenWidgetState
                   labelText: '회원 가입 약관',
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                      color: Color(0x00000000),
+                      color: Colors.transparent,
                       width: 1,
                     ),
                     borderRadius: const BorderRadius.only(
@@ -78,7 +80,7 @@ class _UserLicenseAgreementScreenWidgetState
                   ),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                      color: Color(0x00000000),
+                      color: Colors.transparent,
                       width: 1,
                     ),
                     borderRadius: const BorderRadius.only(
@@ -86,6 +88,8 @@ class _UserLicenseAgreementScreenWidgetState
                       topRight: Radius.circular(4.0),
                     ),
                   ),
+                  filled: true,
+                  fillColor: Colors.transparent,
                 ),
                 style: FlutterFlowTheme.of(context).bodyText1.override(
                       fontFamily: 'Poppins',

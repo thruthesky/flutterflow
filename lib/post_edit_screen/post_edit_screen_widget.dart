@@ -25,36 +25,38 @@ class _PostEditScreenWidgetState extends State<PostEditScreenWidget> {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        backgroundColor: FlutterFlowTheme.of(context).primaryColor,
+        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        iconTheme:
+            IconThemeData(color: FlutterFlowTheme.of(context).primaryText),
         automaticallyImplyLeading: true,
         title: Text(
           '글 수정',
           style: FlutterFlowTheme.of(context).title2.override(
                 fontFamily: 'Poppins',
-                color: Colors.white,
+                color: FlutterFlowTheme.of(context).primaryText,
                 fontSize: 22,
               ),
         ),
         actions: [],
         centerTitle: false,
-        elevation: 2,
+        elevation: 0,
       ),
       backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
       body: SafeArea(
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Expanded(
-                child: Padding(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
                   child: PostEditComponentWidget(
                     postReference: widget.postReference,
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

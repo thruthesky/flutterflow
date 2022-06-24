@@ -67,8 +67,6 @@ class _PostListAllCategoryComponentWidgetState
                 final items = _pagingController.itemList;
                 if (index != null) {
                   items.replaceRange(index, index + 1, [item]);
-                  _pagingController.itemList
-                      .replaceRange(index, index + 1, [item]);
                   _pagingController.itemList = {
                     for (var item in items) item.reference: item
                   }.values.toList();
@@ -83,6 +81,7 @@ class _PostListAllCategoryComponentWidgetState
       }(),
       padding: EdgeInsets.zero,
       primary: false,
+      shrinkWrap: true,
       scrollDirection: Axis.vertical,
       builderDelegate: PagedChildBuilderDelegate<PostsRecord>(
         // Customize what your widget looks like when it's loading the first page.

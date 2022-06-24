@@ -28,6 +28,15 @@ abstract class PostsRecord implements Built<PostsRecord, PostsRecordBuilder> {
   BuiltList<String> get images;
 
   @nullable
+  String get category;
+
+  @nullable
+  bool get hasPhoto;
+
+  @nullable
+  int get noOfComments;
+
+  @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference get reference;
 
@@ -35,7 +44,10 @@ abstract class PostsRecord implements Built<PostsRecord, PostsRecordBuilder> {
     ..title = ''
     ..contente = ''
     ..likes = ListBuilder()
-    ..images = ListBuilder();
+    ..images = ListBuilder()
+    ..category = ''
+    ..hasPhoto = false
+    ..noOfComments = 0;
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('posts');
@@ -63,6 +75,9 @@ Map<String, dynamic> createPostsRecordData({
   String contente,
   DocumentReference userDocumentReference,
   DateTime timestamp,
+  String category,
+  bool hasPhoto,
+  int noOfComments,
 }) =>
     serializers.toFirestore(
         PostsRecord.serializer,
@@ -72,4 +87,7 @@ Map<String, dynamic> createPostsRecordData({
           ..userDocumentReference = userDocumentReference
           ..timestamp = timestamp
           ..likes = null
-          ..images = null));
+          ..images = null
+          ..category = category
+          ..hasPhoto = hasPhoto
+          ..noOfComments = noOfComments));

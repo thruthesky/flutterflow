@@ -31,7 +31,7 @@ class _SmsCodeScreenWidgetState extends State<SmsCodeScreenWidget> {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        backgroundColor: FlutterFlowTheme.of(context).primaryColor,
+        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         automaticallyImplyLeading: false,
         leading: FlutterFlowIconButton(
           borderColor: Colors.transparent,
@@ -40,7 +40,7 @@ class _SmsCodeScreenWidgetState extends State<SmsCodeScreenWidget> {
           buttonSize: 60,
           icon: Icon(
             Icons.chevron_left,
-            color: Colors.white,
+            color: FlutterFlowTheme.of(context).primaryText,
             size: 36,
           ),
           onPressed: () async {
@@ -53,16 +53,16 @@ class _SmsCodeScreenWidgetState extends State<SmsCodeScreenWidget> {
           },
         ),
         title: Text(
-          '문자 인증',
+          '전화 번호 본인 인증',
           style: FlutterFlowTheme.of(context).title2.override(
                 fontFamily: 'Poppins',
-                color: Colors.white,
+                color: FlutterFlowTheme.of(context).primaryText,
                 fontSize: 22,
               ),
         ),
         actions: [],
-        centerTitle: false,
-        elevation: 2,
+        centerTitle: true,
+        elevation: 0,
       ),
       backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
       body: SafeArea(
@@ -115,6 +115,7 @@ class _SmsCodeScreenWidgetState extends State<SmsCodeScreenWidget> {
                       ),
                       style: FlutterFlowTheme.of(context).bodyText1.override(
                             fontFamily: 'Poppins',
+                            fontSize: 18,
                             fontWeight: FontWeight.normal,
                           ),
                     ),

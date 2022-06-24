@@ -59,19 +59,21 @@ class _SmsCodeSendScreenWidgetState extends State<SmsCodeSendScreenWidget> {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        backgroundColor: FlutterFlowTheme.of(context).primaryColor,
-        automaticallyImplyLeading: false,
+        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        iconTheme:
+            IconThemeData(color: FlutterFlowTheme.of(context).primaryText),
+        automaticallyImplyLeading: true,
         title: Text(
           '인증코드를 전송 중 ...',
           style: FlutterFlowTheme.of(context).title2.override(
                 fontFamily: 'Poppins',
-                color: Colors.white,
+                color: FlutterFlowTheme.of(context).primaryText,
                 fontSize: 22,
               ),
         ),
         actions: [],
         centerTitle: false,
-        elevation: 2,
+        elevation: 0,
       ),
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -79,21 +81,45 @@ class _SmsCodeSendScreenWidgetState extends State<SmsCodeSendScreenWidget> {
           onTap: () => FocusScope.of(context).unfocus(),
           child: Align(
             alignment: AlignmentDirectional(0, 0),
-            child: Container(
-              width: double.infinity,
-              height: double.infinity,
-              constraints: BoxConstraints(
-                maxWidth: 100,
-                maxHeight: 100,
-              ),
-              decoration: BoxDecoration(
-                color: Color(0xFFEEEEEE),
-              ),
-              child: Image.asset(
-                'assets/images/Loading_icon.gif',
-                width: 32,
-                height: 32,
-                fit: BoxFit.cover,
+            child: Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(64, 64, 64, 64),
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Text(
+                      '아래의 전화 번호로 인증코드를 전송합니다.',
+                      style: FlutterFlowTheme.of(context).bodyText1.override(
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w300,
+                          ),
+                    ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
+                      child: Text(
+                        widget.phoneNumber,
+                        style: FlutterFlowTheme.of(context).bodyText1.override(
+                              fontFamily: 'Poppins',
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal,
+                            ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
+                      child: Image.asset(
+                        'assets/images/Loading_icon.gif',
+                        width: 64,
+                        height: 64,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

@@ -25,12 +25,11 @@ class _PostTitleComponentWidgetState extends State<PostTitleComponentWidget> {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: double.infinity,
       decoration: BoxDecoration(
         color: Color(0x00FFFFFF),
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.max,
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (!((currentUserDocument?.blockedUsers?.toList() ?? [])

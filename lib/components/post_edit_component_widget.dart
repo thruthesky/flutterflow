@@ -8,6 +8,7 @@ import '../flutter_flow/flutter_flow_widgets.dart';
 import '../flutter_flow/upload_media.dart';
 import '../post_view_screen/post_view_screen_widget.dart';
 import '../custom_code/actions/index.dart' as actions;
+import '../flutter_flow/custom_functions.dart' as functions;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
@@ -136,64 +137,73 @@ class _PostEditComponentWidgetState extends State<PostEditComponentWidget> {
               decoration: BoxDecoration(
                 color: Color(0xFFEEEEEE),
               ),
-              child: Padding(
+            ),
+            if (functions.hasPostPhoto(columnPostsRecord) ?? true)
+              Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
-                child: Builder(
-                  builder: (context) {
-                    final wrapItemImage =
-                        columnPostsRecord.images.toList()?.toList() ?? [];
-                    return Wrap(
-                      spacing: 0,
-                      runSpacing: 0,
-                      alignment: WrapAlignment.start,
-                      crossAxisAlignment: WrapCrossAlignment.start,
-                      direction: Axis.horizontal,
-                      runAlignment: WrapAlignment.start,
-                      verticalDirection: VerticalDirection.down,
-                      clipBehavior: Clip.none,
-                      children: List.generate(wrapItemImage.length,
-                          (wrapItemImageIndex) {
-                        final wrapItemImageItem =
-                            wrapItemImage[wrapItemImageIndex];
-                        return Stack(
-                          children: [
-                            Image.network(
-                              wrapItemImageItem,
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            ),
-                            FlutterFlowIconButton(
-                              borderColor: Colors.transparent,
-                              borderRadius: 30,
-                              borderWidth: 1,
-                              buttonSize: 60,
-                              icon: Icon(
-                                Icons.delete_forever,
-                                color: FlutterFlowTheme.of(context).alternate,
-                                size: 30,
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                  ),
+                  child: Builder(
+                    builder: (context) {
+                      final uploadedImages =
+                          columnPostsRecord.images.toList()?.toList() ?? [];
+                      return GridView.builder(
+                        padding: EdgeInsets.zero,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 4,
+                          mainAxisSpacing: 4,
+                          childAspectRatio: 1,
+                        ),
+                        primary: false,
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        itemCount: uploadedImages.length,
+                        itemBuilder: (context, uploadedImagesIndex) {
+                          final uploadedImagesItem =
+                              uploadedImages[uploadedImagesIndex];
+                          return Stack(
+                            children: [
+                              Image.network(
+                                uploadedImagesItem,
+                                width: 100,
+                                height: 100,
+                                fit: BoxFit.cover,
                               ),
-                              onPressed: () async {
-                                await actions.deleteImage(
-                                  wrapItemImageItem,
-                                );
+                              FlutterFlowIconButton(
+                                borderColor: Colors.transparent,
+                                borderRadius: 30,
+                                borderWidth: 1,
+                                buttonSize: 60,
+                                icon: Icon(
+                                  Icons.delete_forever,
+                                  color: FlutterFlowTheme.of(context).alternate,
+                                  size: 30,
+                                ),
+                                onPressed: () async {
+                                  await actions.deleteImage(
+                                    uploadedImagesItem,
+                                  );
 
-                                final postsUpdateData = {
-                                  'images': FieldValue.arrayRemove(
-                                      [wrapItemImageItem]),
-                                };
-                                await widget.postReference
-                                    .update(postsUpdateData);
-                              },
-                            ),
-                          ],
-                        );
-                      }),
-                    );
-                  },
+                                  final postsUpdateData = {
+                                    'images': FieldValue.arrayRemove(
+                                        [uploadedImagesItem]),
+                                  };
+                                  await widget.postReference
+                                      .update(postsUpdateData);
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  ),
                 ),
               ),
-            ),
             Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -257,6 +267,8 @@ class _PostEditComponentWidgetState extends State<PostEditComponentWidget> {
                     final postsUpdateData = createPostsRecordData(
                       title: titleTextFieldController?.text ?? '',
                       contente: contentTextFieldController?.text ?? '',
+                      hasPhoto: !(functions.isListImagePathEmpty(
+                          columnPostsRecord.images.toList())),
                     );
                     await widget.postReference.update(postsUpdateData);
                     await Navigator.push(
@@ -272,15 +284,16 @@ class _PostEditComponentWidgetState extends State<PostEditComponentWidget> {
                   options: FFButtonOptions(
                     width: 120,
                     height: 40,
-                    color: FlutterFlowTheme.of(context).primaryColor,
+                    color: Colors.transparent,
                     textStyle: FlutterFlowTheme.of(context).subtitle2.override(
                           fontFamily: 'Poppins',
-                          color: Colors.white,
+                          color: FlutterFlowTheme.of(context).primaryColor,
                           fontWeight: FontWeight.w500,
                         ),
+                    elevation: 0,
                     borderSide: BorderSide(
                       color: Colors.transparent,
-                      width: 1,
+                      width: 0,
                     ),
                     borderRadius: 12,
                   ),
