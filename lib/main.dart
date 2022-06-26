@@ -33,8 +33,8 @@ class _MyAppState extends State<MyApp> {
   Locale _locale;
   ThemeMode _themeMode = FlutterFlowTheme.themeMode;
 
-  Stream<NoCodeDevGroupFirebaseUser> userStream;
-  NoCodeDevGroupFirebaseUser initialUser;
+  Stream<NoCodeStudyFirebaseUser> userStream;
+  NoCodeStudyFirebaseUser initialUser;
   bool displaySplashImage = true;
 
   final authUserSub = authenticatedUserStream.listen((_) {});
@@ -42,7 +42,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    userStream = noCodeDevGroupFirebaseUserStream()
+    userStream = noCodeStudyFirebaseUserStream()
       ..listen((user) => initialUser ?? setState(() => initialUser = user));
     Future.delayed(
       Duration(seconds: 1),
@@ -66,7 +66,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'NO CODE DEV GROUP',
+      title: 'No Code Study',
       localizationsDelegates: [
         FFLocalizationsDelegate(),
         GlobalMaterialLocalizations.delegate,

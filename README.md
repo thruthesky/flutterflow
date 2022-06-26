@@ -1,4 +1,4 @@
-# NO CODE DEV GROUP
+# No Code Study
 
 A new Flutter project.
 

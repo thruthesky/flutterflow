@@ -2,7 +2,7 @@ import '../auth/auth_util.dart';
 import '../auth/firebase_user_provider.dart';
 import '../backend/backend.dart';
 import '../components/app_header_component_widget.dart';
-import '../components/comment_create_component_widget.dart';
+import '../components/comment_form_component_widget.dart';
 import '../components/comment_list_component_widget.dart';
 import '../components/end_drawer_column_widget.dart';
 import '../components/post_bottom_sheet_menu_component_widget.dart';
@@ -420,14 +420,9 @@ class _PostViewScreenWidgetState extends State<PostViewScreenWidget> {
                                         return Padding(
                                           padding:
                                               MediaQuery.of(context).viewInsets,
-                                          child: CommentCreateComponentWidget(
-                                            postDocumentReference:
-                                                widget.postReference,
-                                            depth: 0,
-                                            order: functions.emptyString(),
-                                            noOfComments:
-                                                postViewScreenPostsRecord
-                                                    .noOfComments,
+                                          child: CommentFormComponentWidget(
+                                            postDocument:
+                                                postViewScreenPostsRecord,
                                           ),
                                         );
                                       },
@@ -471,7 +466,8 @@ class _PostViewScreenWidgetState extends State<PostViewScreenWidget> {
                           color: Color(0xFFEEEEEE),
                         ),
                         child: CommentListComponentWidget(
-                          postDocumentReference: widget.postReference,
+                          postDocumentReference:
+                              postViewScreenPostsRecord.reference,
                         ),
                       ),
                     ],

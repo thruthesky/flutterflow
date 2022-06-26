@@ -149,3 +149,11 @@ bool postHasValue(PostsRecord post) {
   print('isPostNull() post: $post');
   return post != null;
 }
+
+bool isCommentEmpty(CommentsRecord comment) {
+  return comment == null;
+}
+
+String getCommentContent(CommentsRecord commentDocument) {
+  return commentDocument?.content ?? "";
+}

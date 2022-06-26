@@ -158,10 +158,11 @@ class _MainScreenComponentWidgetState extends State<MainScreenComponentWidget> {
                                           topLeft: Radius.circular(8),
                                           topRight: Radius.circular(8),
                                         ),
-                                        child: Image.network(
-                                          functions.firstImageOfFirstPost(
-                                              socialCardPostsRecordList
-                                                  .toList()),
+                                        child: CachedNetworkImage(
+                                          imageUrl:
+                                              functions.firstImageOfFirstPost(
+                                                  socialCardPostsRecordList
+                                                      .toList()),
                                           width: double.infinity,
                                           height: 130,
                                           fit: BoxFit.cover,
@@ -342,8 +343,9 @@ class _MainScreenComponentWidgetState extends State<MainScreenComponentWidget> {
                                             decoration: BoxDecoration(
                                               shape: BoxShape.circle,
                                             ),
-                                            child: Image.network(
-                                              circleImageUsersRecord.photoUrl,
+                                            child: CachedNetworkImage(
+                                              imageUrl: circleImageUsersRecord
+                                                  .photoUrl,
                                               fit: BoxFit.cover,
                                             ),
                                           );
@@ -545,7 +547,7 @@ class _MainScreenComponentWidgetState extends State<MainScreenComponentWidget> {
             padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 16),
             child: Container(
               width: double.infinity,
-              height: 174,
+              height: 175,
               decoration: BoxDecoration(
                 color: Color(0xFFDFDFDF),
               ),
@@ -630,8 +632,8 @@ class _MainScreenComponentWidgetState extends State<MainScreenComponentWidget> {
                               mainAxisSize: MainAxisSize.max,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Image.network(
-                                  functions
+                                CachedNetworkImage(
+                                  imageUrl: functions
                                       .firstImageOfPost(listViewPostsRecord),
                                   width: double.infinity,
                                   height: 120,

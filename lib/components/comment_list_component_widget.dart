@@ -1,7 +1,8 @@
 import '../auth/auth_util.dart';
 import '../auth/firebase_user_provider.dart';
 import '../backend/backend.dart';
-import '../components/comment_create_component_widget.dart';
+import '../components/comment_bottom_sheet_menu_component_widget.dart';
+import '../components/comment_form_component_widget.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
@@ -202,20 +203,11 @@ class _CommentListComponentWidgetState
                                             return Padding(
                                               padding: MediaQuery.of(context)
                                                   .viewInsets,
-                                              child:
-                                                  CommentCreateComponentWidget(
-                                                postDocumentReference: widget
-                                                    .postDocumentReference,
-                                                depth:
-                                                    columnCommentsRecord.depth,
-                                                order:
-                                                    columnCommentsRecord.order,
-                                                commentDocumentReference:
-                                                    columnCommentsRecord
-                                                        .reference,
-                                                noOfComments:
-                                                    columnCommentsRecord
-                                                        .noOfComments,
+                                              child: CommentFormComponentWidget(
+                                                postDocument:
+                                                    containerPostsRecord,
+                                                commentParentDocument:
+                                                    columnCommentsRecord,
                                               ),
                                             );
                                           },
@@ -355,8 +347,25 @@ class _CommentListComponentWidgetState
                                                       .primaryText,
                                               size: 24,
                                             ),
-                                            onPressed: () {
-                                              print('IconButton pressed ...');
+                                            onPressed: () async {
+                                              await showModalBottomSheet(
+                                                isScrollControlled: true,
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                context: context,
+                                                builder: (context) {
+                                                  return Padding(
+                                                    padding:
+                                                        MediaQuery.of(context)
+                                                            .viewInsets,
+                                                    child:
+                                                        CommentBottomSheetMenuComponentWidget(
+                                                      commentDocument:
+                                                          columnCommentsRecord,
+                                                    ),
+                                                  );
+                                                },
+                                              );
                                             },
                                           ),
                                         ),
