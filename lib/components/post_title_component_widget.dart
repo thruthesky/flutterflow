@@ -125,7 +125,7 @@ class _PostTitleComponentWidgetState extends State<PostTitleComponentWidget> {
                                 ),
                                 Text(
                                   functions
-                                      .oneLineString(widget.post.contente)
+                                      .oneLineString(widget.post.content)
                                       .maybeHandleOverflow(
                                         maxChars: 22,
                                         replacement: '…',
@@ -141,39 +141,59 @@ class _PostTitleComponentWidgetState extends State<PostTitleComponentWidget> {
                             ),
                           ),
                         ),
-                        if ((widget.post.noOfComments) > 0)
-                          Container(
-                            width: 32,
-                            height: 32,
-                            decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context).alternate,
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: Colors.transparent,
-                              ),
-                            ),
-                            child: Align(
-                              alignment: AlignmentDirectional(0, 0),
-                              child: Text(
-                                valueOrDefault<String>(
-                                  formatNumber(
-                                    widget.post.noOfComments,
-                                    formatType: FormatType.decimal,
-                                    decimalType: DecimalType.automatic,
-                                  ),
-                                  '0',
-                                ),
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyText1
-                                    .override(
-                                      fontFamily: 'Poppins',
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w300,
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if ((widget.post.noOfComments) > 0)
+                              Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(0, 0, 0, 4),
+                                child: Container(
+                                  width: 28,
+                                  height: 28,
+                                  decoration: BoxDecoration(
+                                    color:
+                                        FlutterFlowTheme.of(context).alternate,
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: Colors.transparent,
                                     ),
+                                  ),
+                                  child: Align(
+                                    alignment: AlignmentDirectional(0, 0),
+                                    child: Text(
+                                      valueOrDefault<String>(
+                                        formatNumber(
+                                          widget.post.noOfComments,
+                                          formatType: FormatType.decimal,
+                                          decimalType: DecimalType.automatic,
+                                        ),
+                                        '0',
+                                      ),
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyText1
+                                          .override(
+                                            fontFamily: 'Poppins',
+                                            color: Colors.white,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w300,
+                                          ),
+                                    ),
+                                  ),
+                                ),
                               ),
+                            Text(
+                              dateTimeFormat('Md', widget.post.timestamp),
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyText1
+                                  .override(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w300,
+                                  ),
                             ),
-                          ),
+                          ],
+                        ),
                         Icon(
                           Icons.chevron_right,
                           color: Colors.black,

@@ -15,12 +15,12 @@ export 'post_view_screen/post_view_screen_widget.dart'
     show PostViewScreenWidget;
 export 'my_post_list_screen/my_post_list_screen_widget.dart'
     show MyPostListScreenWidget;
-export 'user_block_list_screen/user_block_list_screen_widget.dart'
-    show UserBlockListScreenWidget;
+export 'forum_search_screen/forum_search_screen_widget.dart'
+    show ForumSearchScreenWidget;
 export 'other_user_profile_screen/other_user_profile_screen_widget.dart'
     show OtherUserProfileScreenWidget;
+export 'user_block_list_screen/user_block_list_screen_widget.dart'
+    show UserBlockListScreenWidget;
 export 'profile_screen/profile_screen_widget.dart' show ProfileScreenWidget;
 export 'user_license_agreement_screen/user_license_agreement_screen_widget.dart'
     show UserLicenseAgreementScreenWidget;
-export 'forum_search_screen/forum_search_screen_widget.dart'
-    show ForumSearchScreenWidget;

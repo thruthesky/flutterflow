@@ -86,6 +86,7 @@ class _PostListScreenWidgetState extends State<PostListScreenWidget> {
                       Expanded(
                         child: AppHeaderComponentWidget(
                           category: widget.category,
+                          displaySearchIcon: false,
                         ),
                       ),
                     ],
@@ -267,7 +268,7 @@ class _PostListScreenWidgetState extends State<PostListScreenWidget> {
                                                     ),
                                                     Text(
                                                       listViewPostsRecord
-                                                          .contente,
+                                                          .content,
                                                       style:
                                                           FlutterFlowTheme.of(
                                                                   context)

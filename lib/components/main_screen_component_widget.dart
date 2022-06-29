@@ -40,8 +40,12 @@ class _MainScreenComponentWidgetState extends State<MainScreenComponentWidget> {
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
-          AppHeaderComponentWidget(
-            category: '자유게시판',
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+            child: AppHeaderComponentWidget(
+              category: '자유게시판',
+              displaySearchIcon: true,
+            ),
           ),
           Container(
             width: double.infinity,
@@ -51,54 +55,91 @@ class _MainScreenComponentWidgetState extends State<MainScreenComponentWidget> {
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(16, 32, 16, 16),
-                  child: TextFormField(
-                    controller: searchTextFieldController,
-                    onChanged: (_) => EasyDebounce.debounce(
-                      'searchTextFieldController',
-                      Duration(milliseconds: 2000),
-                      () => setState(() {}),
-                    ),
-                    onFieldSubmitted: (_) async {
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ForumSearchScreenWidget(
-                            word: searchTextFieldController.text,
+                Container(
+                  width: 100,
+                  height: 16,
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                  ),
+                ),
+                StreamBuilder<UsersRecord>(
+                  stream: UsersRecord.getDocument(currentUserReference),
+                  builder: (context, snapshot) {
+                    // Customize what your widget looks like when it's loading.
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: SizedBox(
+                          width: 50,
+                          height: 50,
+                          child: CircularProgressIndicator(
+                            color: FlutterFlowTheme.of(context).primaryColor,
                           ),
                         ),
                       );
-                    },
-                    obscureText: false,
-                    decoration: InputDecoration(
-                      labelText: '노 코드가 궁금하시면 검색 ^^;',
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xFFA1A1A1),
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.circular(16),
+                    }
+                    final containerUsersRecord = snapshot.data;
+                    return Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xFFA1A1A1),
-                          width: 1,
+                      child: Visibility(
+                        visible:
+                            containerUsersRecord.optionDisplaySearch ?? true,
+                        child: Padding(
+                          padding:
+                              EdgeInsetsDirectional.fromSTEB(16, 16, 16, 0),
+                          child: TextFormField(
+                            controller: searchTextFieldController,
+                            onChanged: (_) => EasyDebounce.debounce(
+                              'searchTextFieldController',
+                              Duration(milliseconds: 2000),
+                              () => setState(() {}),
+                            ),
+                            onFieldSubmitted: (_) async {
+                              await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ForumSearchScreenWidget(
+                                    word: searchTextFieldController.text,
+                                  ),
+                                ),
+                              );
+                            },
+                            obscureText: false,
+                            decoration: InputDecoration(
+                              labelText: '노 코드가 궁금하시면 검색 ^^;',
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0xFFA1A1A1),
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0xFFA1A1A1),
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              prefixIcon: Icon(
+                                Icons.search_sharp,
+                              ),
+                            ),
+                            style:
+                                FlutterFlowTheme.of(context).bodyText1.override(
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w300,
+                                    ),
+                          ),
                         ),
-                        borderRadius: BorderRadius.circular(16),
                       ),
-                      prefixIcon: Icon(
-                        Icons.search_sharp,
-                      ),
-                    ),
-                    style: FlutterFlowTheme.of(context).bodyText1.override(
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w300,
-                        ),
-                  ),
+                    );
+                  },
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
+                  padding: EdgeInsetsDirectional.fromSTEB(16, 16, 16, 0),
                   child: StreamBuilder<List<PostsRecord>>(
                     stream: queryPostsRecord(
                       queryBuilder: (postsRecord) => postsRecord
@@ -283,7 +324,7 @@ class _MainScreenComponentWidgetState extends State<MainScreenComponentWidget> {
                                   functions
                                       .firstPost(
                                           socialCardPostsRecordList.toList())
-                                      .contente
+                                      .content
                                       .maybeHandleOverflow(
                                         maxChars: 110,
                                         replacement: '…',
@@ -543,130 +584,161 @@ class _MainScreenComponentWidgetState extends State<MainScreenComponentWidget> {
               ),
             ),
           ),
-          Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 16),
-            child: Container(
-              width: double.infinity,
-              height: 175,
-              decoration: BoxDecoration(
-                color: Color(0xFFDFDFDF),
-              ),
-              child: PagedListView<DocumentSnapshot<Object>, PostsRecord>(
-                pagingController: () {
-                  final Query<Object> Function(Query<Object>) queryBuilder =
-                      (postsRecord) => postsRecord
-                          .where('hasPhoto', isEqualTo: true)
-                          .orderBy('timestamp', descending: true);
-                  if (_pagingController != null) {
-                    final query = queryBuilder(PostsRecord.collection);
-                    if (query != _pagingQuery) {
-                      // The query has changed
-                      _pagingQuery = query;
-
-                      _pagingController.refresh();
-                    }
-                    return _pagingController;
-                  }
-
-                  _pagingController = PagingController(firstPageKey: null);
-                  _pagingQuery = queryBuilder(PostsRecord.collection);
-                  _pagingController.addPageRequestListener((nextPageMarker) {
-                    queryPostsRecordPage(
-                      queryBuilder: (postsRecord) => postsRecord
-                          .where('hasPhoto', isEqualTo: true)
-                          .orderBy('timestamp', descending: true),
-                      nextPageMarker: nextPageMarker,
-                      pageSize: 25,
-                      isStream: false,
-                    ).then((page) {
-                      _pagingController.appendPage(
-                        page.data,
-                        page.nextPageMarker,
-                      );
-                    });
-                  });
-                  return _pagingController;
-                }(),
-                padding: EdgeInsets.zero,
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                builderDelegate: PagedChildBuilderDelegate<PostsRecord>(
-                  // Customize what your widget looks like when it's loading the first page.
-                  firstPageProgressIndicatorBuilder: (_) => Center(
-                    child: SizedBox(
-                      width: 50,
-                      height: 50,
-                      child: CircularProgressIndicator(
-                        color: FlutterFlowTheme.of(context).primaryColor,
-                      ),
+          Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: FlutterFlowTheme.of(context).primaryColor,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                    ),
+                    child: Text(
+                      '최근 사진 모음',
+                      style: FlutterFlowTheme.of(context).bodyText1.override(
+                            fontFamily: 'Poppins',
+                            color: Colors.white,
+                            fontWeight: FontWeight.w300,
+                          ),
                     ),
                   ),
+                ),
+                Container(
+                  width: double.infinity,
+                  height: 150,
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                  ),
+                  child: PagedListView<DocumentSnapshot<Object>, PostsRecord>(
+                    pagingController: () {
+                      final Query<Object> Function(Query<Object>) queryBuilder =
+                          (postsRecord) => postsRecord
+                              .where('hasPhoto', isEqualTo: true)
+                              .orderBy('timestamp', descending: true);
+                      if (_pagingController != null) {
+                        final query = queryBuilder(PostsRecord.collection);
+                        if (query != _pagingQuery) {
+                          // The query has changed
+                          _pagingQuery = query;
 
-                  itemBuilder: (context, _, listViewIndex) {
-                    final listViewPostsRecord =
-                        _pagingController.itemList[listViewIndex];
-                    return Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
-                      child: InkWell(
-                        onTap: () async {
-                          await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => PostViewScreenWidget(
-                                postReference: listViewPostsRecord.reference,
-                              ),
-                            ),
+                          _pagingController.refresh();
+                        }
+                        return _pagingController;
+                      }
+
+                      _pagingController = PagingController(firstPageKey: null);
+                      _pagingQuery = queryBuilder(PostsRecord.collection);
+                      _pagingController
+                          .addPageRequestListener((nextPageMarker) {
+                        queryPostsRecordPage(
+                          queryBuilder: (postsRecord) => postsRecord
+                              .where('hasPhoto', isEqualTo: true)
+                              .orderBy('timestamp', descending: true),
+                          nextPageMarker: nextPageMarker,
+                          pageSize: 25,
+                          isStream: false,
+                        ).then((page) {
+                          _pagingController.appendPage(
+                            page.data,
+                            page.nextPageMarker,
                           );
-                        },
-                        child: Container(
-                          width: 220,
-                          decoration: BoxDecoration(
-                            color: Colors.transparent,
-                          ),
-                          child: Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: Colors.transparent,
-                            ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                CachedNetworkImage(
-                                  imageUrl: functions
-                                      .firstImageOfPost(listViewPostsRecord),
-                                  width: double.infinity,
-                                  height: 120,
-                                  fit: BoxFit.cover,
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0, 4, 0, 0),
-                                  child: Text(
-                                    listViewPostsRecord.title
-                                        .maybeHandleOverflow(
-                                      maxChars: 20,
-                                      replacement: '…',
-                                    ),
-                                    maxLines: 1,
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyText1
-                                        .override(
-                                          fontFamily: 'Poppins',
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w300,
-                                        ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                        });
+                      });
+                      return _pagingController;
+                    }(),
+                    padding: EdgeInsets.zero,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    builderDelegate: PagedChildBuilderDelegate<PostsRecord>(
+                      // Customize what your widget looks like when it's loading the first page.
+                      firstPageProgressIndicatorBuilder: (_) => Center(
+                        child: SizedBox(
+                          width: 50,
+                          height: 50,
+                          child: CircularProgressIndicator(
+                            color: FlutterFlowTheme.of(context).primaryColor,
                           ),
                         ),
                       ),
-                    );
-                  },
+
+                      itemBuilder: (context, _, listViewIndex) {
+                        final listViewPostsRecord =
+                            _pagingController.itemList[listViewIndex];
+                        return Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                          child: InkWell(
+                            onTap: () async {
+                              await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PostViewScreenWidget(
+                                    postReference:
+                                        listViewPostsRecord.reference,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              width: 220,
+                              decoration: BoxDecoration(
+                                color: Colors.transparent,
+                              ),
+                              child: Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: Colors.transparent,
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(8),
+                                      child: CachedNetworkImage(
+                                        imageUrl: functions.firstImageOfPost(
+                                            listViewPostsRecord),
+                                        width: double.infinity,
+                                        height: 120,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0, 4, 0, 0),
+                                      child: Text(
+                                        listViewPostsRecord.title
+                                            .maybeHandleOverflow(
+                                          maxChars: 20,
+                                          replacement: '…',
+                                        ),
+                                        maxLines: 1,
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyText1
+                                            .override(
+                                              fontFamily: 'Poppins',
+                                              color: Colors.white,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w300,
+                                            ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
           PostListAllCategoryComponentWidget(),

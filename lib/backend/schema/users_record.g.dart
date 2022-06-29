@@ -91,6 +91,13 @@ class _$UsersRecordSerializer implements StructuredSerializer<UsersRecord> {
               const FullType(DocumentReference, const [const FullType(Object)])
             ])));
     }
+    value = object.optionDisplaySearch;
+    if (value != null) {
+      result
+        ..add('optionDisplaySearch')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
+    }
     value = object.reference;
     if (value != null) {
       result
@@ -156,6 +163,10 @@ class _$UsersRecordSerializer implements StructuredSerializer<UsersRecord> {
                     DocumentReference, const [const FullType(Object)])
               ])) as BuiltList<Object>);
           break;
+        case 'optionDisplaySearch':
+          result.optionDisplaySearch = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool;
+          break;
         case 'Document__Reference__Field':
           result.reference = serializers.deserialize(value,
                   specifiedType: const FullType(
@@ -191,6 +202,8 @@ class _$UsersRecord extends UsersRecord {
   @override
   final BuiltList<DocumentReference<Object>> blockedUsers;
   @override
+  final bool optionDisplaySearch;
+  @override
   final DocumentReference<Object> reference;
 
   factory _$UsersRecord([void Function(UsersRecordBuilder) updates]) =>
@@ -207,6 +220,7 @@ class _$UsersRecord extends UsersRecord {
       this.city,
       this.hasPhoto,
       this.blockedUsers,
+      this.optionDisplaySearch,
       this.reference})
       : super._();
 
@@ -231,6 +245,7 @@ class _$UsersRecord extends UsersRecord {
         city == other.city &&
         hasPhoto == other.hasPhoto &&
         blockedUsers == other.blockedUsers &&
+        optionDisplaySearch == other.optionDisplaySearch &&
         reference == other.reference;
   }
 
@@ -245,16 +260,18 @@ class _$UsersRecord extends UsersRecord {
                             $jc(
                                 $jc(
                                     $jc(
-                                        $jc($jc(0, email.hashCode),
-                                            displayName.hashCode),
-                                        photoUrl.hashCode),
-                                    uid.hashCode),
-                                createdTime.hashCode),
-                            phoneNumber.hashCode),
-                        gender.hashCode),
-                    city.hashCode),
-                hasPhoto.hashCode),
-            blockedUsers.hashCode),
+                                        $jc(
+                                            $jc($jc(0, email.hashCode),
+                                                displayName.hashCode),
+                                            photoUrl.hashCode),
+                                        uid.hashCode),
+                                    createdTime.hashCode),
+                                phoneNumber.hashCode),
+                            gender.hashCode),
+                        city.hashCode),
+                    hasPhoto.hashCode),
+                blockedUsers.hashCode),
+            optionDisplaySearch.hashCode),
         reference.hashCode));
   }
 
@@ -271,6 +288,7 @@ class _$UsersRecord extends UsersRecord {
           ..add('city', city)
           ..add('hasPhoto', hasPhoto)
           ..add('blockedUsers', blockedUsers)
+          ..add('optionDisplaySearch', optionDisplaySearch)
           ..add('reference', reference))
         .toString();
   }
@@ -321,6 +339,11 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
   set blockedUsers(ListBuilder<DocumentReference<Object>> blockedUsers) =>
       _$this._blockedUsers = blockedUsers;
 
+  bool _optionDisplaySearch;
+  bool get optionDisplaySearch => _$this._optionDisplaySearch;
+  set optionDisplaySearch(bool optionDisplaySearch) =>
+      _$this._optionDisplaySearch = optionDisplaySearch;
+
   DocumentReference<Object> _reference;
   DocumentReference<Object> get reference => _$this._reference;
   set reference(DocumentReference<Object> reference) =>
@@ -343,6 +366,7 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
       _city = $v.city;
       _hasPhoto = $v.hasPhoto;
       _blockedUsers = $v.blockedUsers?.toBuilder();
+      _optionDisplaySearch = $v.optionDisplaySearch;
       _reference = $v.reference;
       _$v = null;
     }
@@ -376,6 +400,7 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
               city: city,
               hasPhoto: hasPhoto,
               blockedUsers: _blockedUsers?.build(),
+              optionDisplaySearch: optionDisplaySearch,
               reference: reference);
     } catch (_) {
       String _$failedField;

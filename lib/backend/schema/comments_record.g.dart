@@ -79,6 +79,14 @@ class _$CommentsRecordSerializer
               const FullType(DocumentReference, const [const FullType(Object)])
             ])));
     }
+    value = object.images;
+    if (value != null) {
+      result
+        ..add('images')
+        ..add(serializers.serialize(value,
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(String)])));
+    }
     value = object.reference;
     if (value != null) {
       result
@@ -141,6 +149,12 @@ class _$CommentsRecordSerializer
                     DocumentReference, const [const FullType(Object)])
               ])) as BuiltList<Object>);
           break;
+        case 'images':
+          result.images.replace(serializers.deserialize(value,
+                  specifiedType:
+                      const FullType(BuiltList, const [const FullType(String)]))
+              as BuiltList<Object>);
+          break;
         case 'Document__Reference__Field':
           result.reference = serializers.deserialize(value,
                   specifiedType: const FullType(
@@ -172,6 +186,8 @@ class _$CommentsRecord extends CommentsRecord {
   @override
   final BuiltList<DocumentReference<Object>> likes;
   @override
+  final BuiltList<String> images;
+  @override
   final DocumentReference<Object> reference;
 
   factory _$CommentsRecord([void Function(CommentsRecordBuilder) updates]) =>
@@ -186,6 +202,7 @@ class _$CommentsRecord extends CommentsRecord {
       this.depth,
       this.noOfComments,
       this.likes,
+      this.images,
       this.reference})
       : super._();
 
@@ -209,6 +226,7 @@ class _$CommentsRecord extends CommentsRecord {
         depth == other.depth &&
         noOfComments == other.noOfComments &&
         likes == other.likes &&
+        images == other.images &&
         reference == other.reference;
   }
 
@@ -221,14 +239,16 @@ class _$CommentsRecord extends CommentsRecord {
                     $jc(
                         $jc(
                             $jc(
-                                $jc($jc(0, content.hashCode),
-                                    userDocumentReference.hashCode),
-                                postDocumentReference.hashCode),
-                            createdAt.hashCode),
-                        order.hashCode),
-                    depth.hashCode),
-                noOfComments.hashCode),
-            likes.hashCode),
+                                $jc(
+                                    $jc($jc(0, content.hashCode),
+                                        userDocumentReference.hashCode),
+                                    postDocumentReference.hashCode),
+                                createdAt.hashCode),
+                            order.hashCode),
+                        depth.hashCode),
+                    noOfComments.hashCode),
+                likes.hashCode),
+            images.hashCode),
         reference.hashCode));
   }
 
@@ -243,6 +263,7 @@ class _$CommentsRecord extends CommentsRecord {
           ..add('depth', depth)
           ..add('noOfComments', noOfComments)
           ..add('likes', likes)
+          ..add('images', images)
           ..add('reference', reference))
         .toString();
   }
@@ -290,6 +311,11 @@ class CommentsRecordBuilder
   set likes(ListBuilder<DocumentReference<Object>> likes) =>
       _$this._likes = likes;
 
+  ListBuilder<String> _images;
+  ListBuilder<String> get images =>
+      _$this._images ??= new ListBuilder<String>();
+  set images(ListBuilder<String> images) => _$this._images = images;
+
   DocumentReference<Object> _reference;
   DocumentReference<Object> get reference => _$this._reference;
   set reference(DocumentReference<Object> reference) =>
@@ -310,6 +336,7 @@ class CommentsRecordBuilder
       _depth = $v.depth;
       _noOfComments = $v.noOfComments;
       _likes = $v.likes?.toBuilder();
+      _images = $v.images?.toBuilder();
       _reference = $v.reference;
       _$v = null;
     }
@@ -341,12 +368,15 @@ class CommentsRecordBuilder
               depth: depth,
               noOfComments: noOfComments,
               likes: _likes?.build(),
+              images: _images?.build(),
               reference: reference);
     } catch (_) {
       String _$failedField;
       try {
         _$failedField = 'likes';
         _likes?.build();
+        _$failedField = 'images';
+        _images?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'CommentsRecord', _$failedField, e.toString());

@@ -84,300 +84,420 @@ class _CommentListComponentWidgetState
                     decoration: BoxDecoration(
                       color: Color(0xFFEEEEEE),
                     ),
-                    child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: functions
-                                .indentComment(columnCommentsRecord.depth),
-                            height: 10,
-                            decoration: BoxDecoration(
-                              color: Color(0xFFEEEEEE),
-                            ),
-                          ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (!((currentUserDocument?.blockedUsers?.toList() ??
+                                    [])
+                                .contains(columnCommentsRecord
+                                    .userDocumentReference)) ??
+                            true)
                           Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Color(0xFFEEEEEE),
-                              ),
-                              child: Card(
-                                clipBehavior: Clip.antiAliasWithSaveLayer,
-                                color: Color(0xFFF5F5F5),
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(24),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0, 1, 0, 0),
-                                  child: StreamBuilder<UsersRecord>(
-                                    stream: UsersRecord.getDocument(
-                                        columnCommentsRecord
-                                            .userDocumentReference),
-                                    builder: (context, snapshot) {
-                                      // Customize what your widget looks like when it's loading.
-                                      if (!snapshot.hasData) {
-                                        return Center(
-                                          child: SizedBox(
-                                            width: 50,
-                                            height: 50,
-                                            child: CircularProgressIndicator(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryColor,
-                                            ),
-                                          ),
-                                        );
-                                      }
-                                      final imageUsersRecord = snapshot.data;
-                                      return CachedNetworkImage(
-                                        imageUrl: imageUsersRecord.photoUrl,
-                                        width: 40,
-                                        height: 40,
-                                        fit: BoxFit.cover,
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      16, 0, 0, 0),
-                                  child: Container(
+                                EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
+                            child: AuthUserStreamWidget(
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: functions.indentComment(
+                                        columnCommentsRecord.depth),
+                                    height: 10,
                                     decoration: BoxDecoration(
                                       color: Color(0xFFEEEEEE),
                                     ),
-                                    child: Text(
-                                      dateTimeFormat('M/d h:mm a',
-                                          columnCommentsRecord.createdAt),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily: 'Poppins',
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w300,
-                                          ),
-                                    ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      16, 8, 0, 0),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Color(0xFFEEEEEE),
-                                    ),
-                                    child: Text(
-                                      columnCommentsRecord.content,
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily: 'Poppins',
-                                            fontWeight: FontWeight.w300,
-                                          ),
-                                    ),
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    FFButtonWidget(
-                                      onPressed: () async {
-                                        showModalBottomSheet(
-                                          isScrollControlled: true,
-                                          backgroundColor: Colors.transparent,
-                                          context: context,
-                                          builder: (context) {
-                                            return Padding(
-                                              padding: MediaQuery.of(context)
-                                                  .viewInsets,
-                                              child: CommentFormComponentWidget(
-                                                postDocument:
-                                                    containerPostsRecord,
-                                                commentParentDocument:
-                                                    columnCommentsRecord,
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      },
-                                      text: '댓글',
-                                      options: FFButtonOptions(
-                                        width: 50,
-                                        height: 40,
-                                        color: Colors.transparent,
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .subtitle2
-                                            .override(
-                                              fontFamily: 'Poppins',
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryText,
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w300,
-                                            ),
-                                        elevation: 0,
-                                        borderSide: BorderSide(
-                                          color: Colors.transparent,
-                                          width: 0,
-                                        ),
-                                        borderRadius: 12,
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0, 16, 0, 0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFFEEEEEE),
                                       ),
-                                    ),
-                                    FFButtonWidget(
-                                      onPressed: () async {
-                                        if (loggedIn) {
-                                          if (columnCommentsRecord.likes
-                                              .toList()
-                                              .contains(currentUserReference)) {
-                                            final commentsUpdateData = {
-                                              'likes': FieldValue.arrayRemove(
-                                                  [currentUserReference]),
-                                            };
-                                            await columnCommentsRecord.reference
-                                                .update(commentsUpdateData);
-                                          } else {
-                                            final commentsUpdateData = {
-                                              'likes': FieldValue.arrayUnion(
-                                                  [currentUserReference]),
-                                            };
-                                            await columnCommentsRecord.reference
-                                                .update(commentsUpdateData);
-                                          }
-                                        } else {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                '로그인을 먼저 해 주세요.',
-                                                style: TextStyle(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primaryBackground,
-                                                ),
-                                              ),
-                                              duration:
-                                                  Duration(milliseconds: 10000),
-                                              backgroundColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .alternate,
-                                            ),
-                                          );
-                                        }
-                                      },
-                                      text: functions.likeText(
-                                          columnCommentsRecord.likes.toList()),
-                                      options: FFButtonOptions(
-                                        width: 64,
-                                        height: 40,
-                                        color: Colors.transparent,
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .subtitle2
-                                            .override(
-                                              fontFamily: 'Poppins',
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryText,
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w300,
-                                            ),
+                                      child: Card(
+                                        clipBehavior:
+                                            Clip.antiAliasWithSaveLayer,
+                                        color: Color(0xFFF5F5F5),
                                         elevation: 0,
-                                        borderSide: BorderSide(
-                                          color: Colors.transparent,
-                                          width: 0,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(24),
                                         ),
-                                        borderRadius: 12,
-                                      ),
-                                    ),
-                                    FFButtonWidget(
-                                      onPressed: () {
-                                        print('Button pressed ...');
-                                      },
-                                      text: '신고',
-                                      options: FFButtonOptions(
-                                        width: 50,
-                                        height: 40,
-                                        color: Colors.transparent,
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .subtitle2
-                                            .override(
-                                              fontFamily: 'Poppins',
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryText,
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w300,
-                                            ),
-                                        elevation: 0,
-                                        borderSide: BorderSide(
-                                          color: Colors.transparent,
-                                          width: 0,
-                                        ),
-                                        borderRadius: 12,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Align(
-                                        alignment: AlignmentDirectional(1, 0),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: Color(0xFFEEEEEE),
-                                          ),
-                                          child: FlutterFlowIconButton(
-                                            borderColor: Colors.transparent,
-                                            borderRadius: 30,
-                                            borderWidth: 1,
-                                            buttonSize: 60,
-                                            icon: Icon(
-                                              Icons.more_vert_sharp,
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryText,
-                                              size: 24,
-                                            ),
-                                            onPressed: () async {
-                                              await showModalBottomSheet(
-                                                isScrollControlled: true,
-                                                backgroundColor:
-                                                    Colors.transparent,
-                                                context: context,
-                                                builder: (context) {
-                                                  return Padding(
-                                                    padding:
-                                                        MediaQuery.of(context)
-                                                            .viewInsets,
+                                        child: Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0, 1, 0, 0),
+                                          child: StreamBuilder<UsersRecord>(
+                                            stream: UsersRecord.getDocument(
+                                                columnCommentsRecord
+                                                    .userDocumentReference),
+                                            builder: (context, snapshot) {
+                                              // Customize what your widget looks like when it's loading.
+                                              if (!snapshot.hasData) {
+                                                return Center(
+                                                  child: SizedBox(
+                                                    width: 50,
+                                                    height: 50,
                                                     child:
-                                                        CommentBottomSheetMenuComponentWidget(
-                                                      commentDocument:
-                                                          columnCommentsRecord,
+                                                        CircularProgressIndicator(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primaryColor,
                                                     ),
-                                                  );
-                                                },
+                                                  ),
+                                                );
+                                              }
+                                              final imageUsersRecord =
+                                                  snapshot.data;
+                                              return CachedNetworkImage(
+                                                imageUrl:
+                                                    imageUsersRecord.photoUrl,
+                                                width: 40,
+                                                height: 40,
+                                                fit: BoxFit.cover,
                                               );
                                             },
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ],
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  16, 0, 0, 0),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: Color(0xFFEEEEEE),
+                                            ),
+                                            child: Text(
+                                              dateTimeFormat(
+                                                  'M/d h:mm a',
+                                                  columnCommentsRecord
+                                                      .createdAt),
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText1
+                                                      .override(
+                                                        fontFamily: 'Poppins',
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.w300,
+                                                      ),
+                                            ),
+                                          ),
+                                        ),
+                                        if (!(functions.isListImagePathEmpty(
+                                                columnCommentsRecord.images
+                                                    .toList())) ??
+                                            true)
+                                          Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    16, 8, 0, 0),
+                                            child: Container(
+                                              width: double.infinity,
+                                              decoration: BoxDecoration(
+                                                color: Color(0xFFEEEEEE),
+                                              ),
+                                              child: Builder(
+                                                builder: (context) {
+                                                  final imagePathsInColumn =
+                                                      columnCommentsRecord
+                                                              .images
+                                                              .toList()
+                                                              ?.toList() ??
+                                                          [];
+                                                  return Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: List.generate(
+                                                        imagePathsInColumn
+                                                            .length,
+                                                        (imagePathsInColumnIndex) {
+                                                      final imagePathsInColumnItem =
+                                                          imagePathsInColumn[
+                                                              imagePathsInColumnIndex];
+                                                      return Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    0, 8, 0, 0),
+                                                        child: Image.network(
+                                                          imagePathsInColumnItem,
+                                                          width:
+                                                              double.infinity,
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                      );
+                                                    }),
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  16, 16, 0, 0),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: Color(0xFFEEEEEE),
+                                            ),
+                                            child: Text(
+                                              columnCommentsRecord.content,
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText1
+                                                      .override(
+                                                        fontFamily: 'Poppins',
+                                                        fontWeight:
+                                                            FontWeight.w300,
+                                                      ),
+                                            ),
+                                          ),
+                                        ),
+                                        Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            FFButtonWidget(
+                                              onPressed: () async {
+                                                showModalBottomSheet(
+                                                  isScrollControlled: true,
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return Padding(
+                                                      padding:
+                                                          MediaQuery.of(context)
+                                                              .viewInsets,
+                                                      child:
+                                                          CommentFormComponentWidget(
+                                                        postDocument:
+                                                            containerPostsRecord,
+                                                        commentParentDocument:
+                                                            columnCommentsRecord,
+                                                      ),
+                                                    );
+                                                  },
+                                                );
+                                                setState(() => FFAppState()
+                                                    .temporaryImages = []);
+                                              },
+                                              text: '댓글',
+                                              options: FFButtonOptions(
+                                                width: 50,
+                                                height: 40,
+                                                color: Colors.transparent,
+                                                textStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .subtitle2
+                                                        .override(
+                                                          fontFamily: 'Poppins',
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primaryText,
+                                                          fontSize: 13,
+                                                          fontWeight:
+                                                              FontWeight.w300,
+                                                        ),
+                                                elevation: 0,
+                                                borderSide: BorderSide(
+                                                  color: Colors.transparent,
+                                                  width: 0,
+                                                ),
+                                                borderRadius: 12,
+                                              ),
+                                            ),
+                                            FFButtonWidget(
+                                              onPressed: () async {
+                                                if (loggedIn) {
+                                                  if (columnCommentsRecord.likes
+                                                      .toList()
+                                                      .contains(
+                                                          currentUserReference)) {
+                                                    final commentsUpdateData = {
+                                                      'likes': FieldValue
+                                                          .arrayRemove([
+                                                        currentUserReference
+                                                      ]),
+                                                    };
+                                                    await columnCommentsRecord
+                                                        .reference
+                                                        .update(
+                                                            commentsUpdateData);
+                                                  } else {
+                                                    final commentsUpdateData = {
+                                                      'likes': FieldValue
+                                                          .arrayUnion([
+                                                        currentUserReference
+                                                      ]),
+                                                    };
+                                                    await columnCommentsRecord
+                                                        .reference
+                                                        .update(
+                                                            commentsUpdateData);
+                                                  }
+                                                } else {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                        '로그인을 먼저 해 주세요.',
+                                                        style: TextStyle(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primaryBackground,
+                                                        ),
+                                                      ),
+                                                      duration: Duration(
+                                                          milliseconds: 10000),
+                                                      backgroundColor:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .alternate,
+                                                    ),
+                                                  );
+                                                }
+                                              },
+                                              text: functions.likeText(
+                                                  columnCommentsRecord.likes
+                                                      .toList()),
+                                              options: FFButtonOptions(
+                                                width: 64,
+                                                height: 40,
+                                                color: Colors.transparent,
+                                                textStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .subtitle2
+                                                        .override(
+                                                          fontFamily: 'Poppins',
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primaryText,
+                                                          fontSize: 13,
+                                                          fontWeight:
+                                                              FontWeight.w300,
+                                                        ),
+                                                elevation: 0,
+                                                borderSide: BorderSide(
+                                                  color: Colors.transparent,
+                                                  width: 0,
+                                                ),
+                                                borderRadius: 12,
+                                              ),
+                                            ),
+                                            FFButtonWidget(
+                                              onPressed: () {
+                                                print('Button pressed ...');
+                                              },
+                                              text: '신고',
+                                              options: FFButtonOptions(
+                                                width: 50,
+                                                height: 40,
+                                                color: Colors.transparent,
+                                                textStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .subtitle2
+                                                        .override(
+                                                          fontFamily: 'Poppins',
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primaryText,
+                                                          fontSize: 13,
+                                                          fontWeight:
+                                                              FontWeight.w300,
+                                                        ),
+                                                elevation: 0,
+                                                borderSide: BorderSide(
+                                                  color: Colors.transparent,
+                                                  width: 0,
+                                                ),
+                                                borderRadius: 12,
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Align(
+                                                alignment:
+                                                    AlignmentDirectional(1, 0),
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    color: Color(0xFFEEEEEE),
+                                                  ),
+                                                  child: FlutterFlowIconButton(
+                                                    borderColor:
+                                                        Colors.transparent,
+                                                    borderRadius: 30,
+                                                    borderWidth: 1,
+                                                    buttonSize: 60,
+                                                    icon: Icon(
+                                                      Icons.more_vert_sharp,
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primaryText,
+                                                      size: 24,
+                                                    ),
+                                                    onPressed: () async {
+                                                      await showModalBottomSheet(
+                                                        isScrollControlled:
+                                                            true,
+                                                        backgroundColor:
+                                                            Colors.transparent,
+                                                        context: context,
+                                                        builder: (context) {
+                                                          return Padding(
+                                                            padding:
+                                                                MediaQuery.of(
+                                                                        context)
+                                                                    .viewInsets,
+                                                            child:
+                                                                CommentBottomSheetMenuComponentWidget(
+                                                              commentDocument:
+                                                                  columnCommentsRecord,
+                                                            ),
+                                                          );
+                                                        },
+                                                      );
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ],
-                      ),
+                        if ((currentUserDocument?.blockedUsers?.toList() ?? [])
+                                ?.contains(columnCommentsRecord
+                                    .userDocumentReference) ??
+                            true)
+                          Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(32, 32, 32, 32),
+                            child: AuthUserStreamWidget(
+                              child: Text(
+                                '차단한 사용자의 코멘트입니다.',
+                                style: FlutterFlowTheme.of(context).bodyText1,
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                   );
                 }),

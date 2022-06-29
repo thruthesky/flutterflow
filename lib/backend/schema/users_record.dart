@@ -44,6 +44,9 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
   BuiltList<DocumentReference> get blockedUsers;
 
   @nullable
+  bool get optionDisplaySearch;
+
+  @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference get reference;
 
@@ -56,7 +59,8 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
     ..gender = ''
     ..city = ''
     ..hasPhoto = false
-    ..blockedUsers = ListBuilder();
+    ..blockedUsers = ListBuilder()
+    ..optionDisplaySearch = false;
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('users');
@@ -89,6 +93,7 @@ Map<String, dynamic> createUsersRecordData({
   String gender,
   String city,
   bool hasPhoto,
+  bool optionDisplaySearch,
 }) =>
     serializers.toFirestore(
         UsersRecord.serializer,
@@ -102,4 +107,5 @@ Map<String, dynamic> createUsersRecordData({
           ..gender = gender
           ..city = city
           ..hasPhoto = hasPhoto
-          ..blockedUsers = null));
+          ..blockedUsers = null
+          ..optionDisplaySearch = optionDisplaySearch));

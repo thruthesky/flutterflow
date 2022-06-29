@@ -36,6 +36,9 @@ abstract class CommentsRecord
   BuiltList<DocumentReference> get likes;
 
   @nullable
+  BuiltList<String> get images;
+
+  @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference get reference;
 
@@ -44,7 +47,8 @@ abstract class CommentsRecord
     ..order = ''
     ..depth = 0
     ..noOfComments = 0
-    ..likes = ListBuilder();
+    ..likes = ListBuilder()
+    ..images = ListBuilder();
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('comments');
@@ -86,4 +90,5 @@ Map<String, dynamic> createCommentsRecordData({
           ..order = order
           ..depth = depth
           ..noOfComments = noOfComments
-          ..likes = null));
+          ..likes = null
+          ..images = null));

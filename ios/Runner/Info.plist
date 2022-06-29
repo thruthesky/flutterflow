@@ -40,11 +40,18 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
 
 	<key>NSCameraUsageDescription</key>
 	<string>플러터플로 코리아 앱은 프로필과 게시판에 사진을 등록하기 위해서 카메라 사용 권한이 필요합니다.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>플러터플로 코리아앱은 프로필과 게시판에 사진을 등록하기 위해서 Photo Library 사용 권한이 필요합니다.</string>
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>fetch</string>
+        <string>remote-notification</string>
+    </array>
 
 
 	<key>UILaunchStoryboardName</key>

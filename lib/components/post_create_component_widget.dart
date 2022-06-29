@@ -277,12 +277,12 @@ class _PostCreateComponentWidgetState extends State<PostCreateComponentWidget> {
                 final postsCreateData = {
                   ...createPostsRecordData(
                     title: titleTextFieldController.text,
-                    contente: contentTextFieldController.text,
                     userDocumentReference: currentUserReference,
                     timestamp: getCurrentTimestamp,
                     category: categoryDropDownValue,
                     hasPhoto: !(functions.isListImagePathEmpty(
                         FFAppState().temporaryImages.toList())),
+                    content: contentTextFieldController.text,
                   ),
                   'images': FFAppState().temporaryImages,
                 };

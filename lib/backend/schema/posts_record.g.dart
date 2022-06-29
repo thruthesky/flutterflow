@@ -26,13 +26,6 @@ class _$PostsRecordSerializer implements StructuredSerializer<PostsRecord> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    value = object.contente;
-    if (value != null) {
-      result
-        ..add('contente')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
     value = object.userDocumentReference;
     if (value != null) {
       result
@@ -85,6 +78,13 @@ class _$PostsRecordSerializer implements StructuredSerializer<PostsRecord> {
         ..add('noOfComments')
         ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
+    value = object.content;
+    if (value != null) {
+      result
+        ..add('content')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     value = object.reference;
     if (value != null) {
       result
@@ -109,10 +109,6 @@ class _$PostsRecordSerializer implements StructuredSerializer<PostsRecord> {
       switch (key) {
         case 'title':
           result.title = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
-          break;
-        case 'contente':
-          result.contente = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
         case 'userDocumentReference':
@@ -150,6 +146,10 @@ class _$PostsRecordSerializer implements StructuredSerializer<PostsRecord> {
           result.noOfComments = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
+        case 'content':
+          result.content = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
         case 'Document__Reference__Field':
           result.reference = serializers.deserialize(value,
                   specifiedType: const FullType(
@@ -167,8 +167,6 @@ class _$PostsRecord extends PostsRecord {
   @override
   final String title;
   @override
-  final String contente;
-  @override
   final DocumentReference<Object> userDocumentReference;
   @override
   final DateTime timestamp;
@@ -183,6 +181,8 @@ class _$PostsRecord extends PostsRecord {
   @override
   final int noOfComments;
   @override
+  final String content;
+  @override
   final DocumentReference<Object> reference;
 
   factory _$PostsRecord([void Function(PostsRecordBuilder) updates]) =>
@@ -190,7 +190,6 @@ class _$PostsRecord extends PostsRecord {
 
   _$PostsRecord._(
       {this.title,
-      this.contente,
       this.userDocumentReference,
       this.timestamp,
       this.likes,
@@ -198,6 +197,7 @@ class _$PostsRecord extends PostsRecord {
       this.category,
       this.hasPhoto,
       this.noOfComments,
+      this.content,
       this.reference})
       : super._();
 
@@ -213,7 +213,6 @@ class _$PostsRecord extends PostsRecord {
     if (identical(other, this)) return true;
     return other is PostsRecord &&
         title == other.title &&
-        contente == other.contente &&
         userDocumentReference == other.userDocumentReference &&
         timestamp == other.timestamp &&
         likes == other.likes &&
@@ -221,6 +220,7 @@ class _$PostsRecord extends PostsRecord {
         category == other.category &&
         hasPhoto == other.hasPhoto &&
         noOfComments == other.noOfComments &&
+        content == other.content &&
         reference == other.reference;
   }
 
@@ -235,14 +235,14 @@ class _$PostsRecord extends PostsRecord {
                             $jc(
                                 $jc(
                                     $jc($jc(0, title.hashCode),
-                                        contente.hashCode),
-                                    userDocumentReference.hashCode),
-                                timestamp.hashCode),
-                            likes.hashCode),
-                        images.hashCode),
-                    category.hashCode),
-                hasPhoto.hashCode),
-            noOfComments.hashCode),
+                                        userDocumentReference.hashCode),
+                                    timestamp.hashCode),
+                                likes.hashCode),
+                            images.hashCode),
+                        category.hashCode),
+                    hasPhoto.hashCode),
+                noOfComments.hashCode),
+            content.hashCode),
         reference.hashCode));
   }
 
@@ -250,7 +250,6 @@ class _$PostsRecord extends PostsRecord {
   String toString() {
     return (newBuiltValueToStringHelper('PostsRecord')
           ..add('title', title)
-          ..add('contente', contente)
           ..add('userDocumentReference', userDocumentReference)
           ..add('timestamp', timestamp)
           ..add('likes', likes)
@@ -258,6 +257,7 @@ class _$PostsRecord extends PostsRecord {
           ..add('category', category)
           ..add('hasPhoto', hasPhoto)
           ..add('noOfComments', noOfComments)
+          ..add('content', content)
           ..add('reference', reference))
         .toString();
   }
@@ -269,10 +269,6 @@ class PostsRecordBuilder implements Builder<PostsRecord, PostsRecordBuilder> {
   String _title;
   String get title => _$this._title;
   set title(String title) => _$this._title = title;
-
-  String _contente;
-  String get contente => _$this._contente;
-  set contente(String contente) => _$this._contente = contente;
 
   DocumentReference<Object> _userDocumentReference;
   DocumentReference<Object> get userDocumentReference =>
@@ -307,6 +303,10 @@ class PostsRecordBuilder implements Builder<PostsRecord, PostsRecordBuilder> {
   int get noOfComments => _$this._noOfComments;
   set noOfComments(int noOfComments) => _$this._noOfComments = noOfComments;
 
+  String _content;
+  String get content => _$this._content;
+  set content(String content) => _$this._content = content;
+
   DocumentReference<Object> _reference;
   DocumentReference<Object> get reference => _$this._reference;
   set reference(DocumentReference<Object> reference) =>
@@ -320,7 +320,6 @@ class PostsRecordBuilder implements Builder<PostsRecord, PostsRecordBuilder> {
     final $v = _$v;
     if ($v != null) {
       _title = $v.title;
-      _contente = $v.contente;
       _userDocumentReference = $v.userDocumentReference;
       _timestamp = $v.timestamp;
       _likes = $v.likes?.toBuilder();
@@ -328,6 +327,7 @@ class PostsRecordBuilder implements Builder<PostsRecord, PostsRecordBuilder> {
       _category = $v.category;
       _hasPhoto = $v.hasPhoto;
       _noOfComments = $v.noOfComments;
+      _content = $v.content;
       _reference = $v.reference;
       _$v = null;
     }
@@ -352,7 +352,6 @@ class PostsRecordBuilder implements Builder<PostsRecord, PostsRecordBuilder> {
       _$result = _$v ??
           new _$PostsRecord._(
               title: title,
-              contente: contente,
               userDocumentReference: userDocumentReference,
               timestamp: timestamp,
               likes: _likes?.build(),
@@ -360,6 +359,7 @@ class PostsRecordBuilder implements Builder<PostsRecord, PostsRecordBuilder> {
               category: category,
               hasPhoto: hasPhoto,
               noOfComments: noOfComments,
+              content: content,
               reference: reference);
     } catch (_) {
       String _$failedField;

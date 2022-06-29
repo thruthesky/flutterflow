@@ -97,7 +97,7 @@ class _PostEditComponentWidgetState extends State<PostEditComponentWidget> {
               child: TextFormField(
                 controller: contentTextFieldController ??=
                     TextEditingController(
-                  text: columnPostsRecord.contente,
+                  text: columnPostsRecord.content,
                 ),
                 onChanged: (_) => EasyDebounce.debounce(
                   'contentTextFieldController',
@@ -266,9 +266,9 @@ class _PostEditComponentWidgetState extends State<PostEditComponentWidget> {
                   onPressed: () async {
                     final postsUpdateData = createPostsRecordData(
                       title: titleTextFieldController?.text ?? '',
-                      contente: contentTextFieldController?.text ?? '',
                       hasPhoto: !(functions.isListImagePathEmpty(
                           columnPostsRecord.images.toList())),
+                      content: contentTextFieldController?.text ?? '',
                     );
                     await widget.postReference.update(postsUpdateData);
                     await Navigator.push(

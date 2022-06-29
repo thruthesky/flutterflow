@@ -153,7 +153,7 @@ class _MyPostListScreenWidgetState extends State<MyPostListScreenWidget> {
                       ),
                       subtitle: Text(
                         functions
-                            .oneLineString(listViewPostsRecord.contente)
+                            .oneLineString(listViewPostsRecord.content)
                             .maybeHandleOverflow(
                               maxChars: 24,
                               replacement: '…',

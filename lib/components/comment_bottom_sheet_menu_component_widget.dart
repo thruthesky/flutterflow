@@ -40,6 +40,7 @@ class _CommentBottomSheetMenuComponentWidgetState
                 (widget.commentDocument.userDocumentReference))
               InkWell(
                 onTap: () async {
+                  setState(() => FFAppState().temporaryImages = []);
                   await showModalBottomSheet(
                     isScrollControlled: true,
                     backgroundColor: Colors.transparent,

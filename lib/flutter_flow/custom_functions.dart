@@ -157,3 +157,35 @@ bool isCommentEmpty(CommentsRecord comment) {
 String getCommentContent(CommentsRecord commentDocument) {
   return commentDocument?.content ?? "";
 }
+
+bool hasCommnetFiles(CommentsRecord comment) {
+  if (comment == null) return false;
+  if (comment.images == null) return false;
+  if (comment.images.isEmpty) return false;
+  return true;
+}
+
+bool hasSearchResults(dynamic documents) {
+  print('documents; $documents');
+  if (documents == null) return false;
+  if (documents is Map) {
+    if (documents['found'] == null) return false;
+    if (documents['found'] == 0) return false;
+    return true;
+  } else {
+    return false;
+  }
+}
+
+bool isSearchPost(dynamic search) {
+  if (search == null || search['document'] == null) return false;
+  return search['document']['category'] != null;
+}
+
+DocumentReference getPostDocumentReferenceFromSearch(String id) {
+  return FirebaseFirestore.instance.doc("/posts/$id");
+}
+
+DocumentReference getCommentReferenceFromSearch(String id) {
+  return FirebaseFirestore.instance.doc("/comments/$id");
+}

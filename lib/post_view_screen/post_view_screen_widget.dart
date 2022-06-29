@@ -82,11 +82,11 @@ class _PostViewScreenWidgetState extends State<PostViewScreenWidget> {
                               borderColor: Colors.transparent,
                               borderRadius: 30,
                               borderWidth: 1,
-                              buttonSize: 60,
+                              buttonSize: 48,
                               icon: Icon(
                                 Icons.chevron_left,
                                 color: FlutterFlowTheme.of(context).primaryText,
-                                size: 48,
+                                size: 28,
                               ),
                               onPressed: () async {
                                 await Navigator.push(
@@ -104,6 +104,7 @@ class _PostViewScreenWidgetState extends State<PostViewScreenWidget> {
                           Expanded(
                             child: AppHeaderComponentWidget(
                               category: postViewScreenPostsRecord.category,
+                              displaySearchIcon: false,
                             ),
                           ),
                         ],
@@ -221,7 +222,7 @@ class _PostViewScreenWidgetState extends State<PostViewScreenWidget> {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           16, 16, 16, 16),
                                       child: Text(
-                                        postViewScreenPostsRecord.contente,
+                                        postViewScreenPostsRecord.content,
                                         style: FlutterFlowTheme.of(context)
                                             .bodyText1
                                             .override(
@@ -412,6 +413,8 @@ class _PostViewScreenWidgetState extends State<PostViewScreenWidget> {
                                 ),
                                 InkWell(
                                   onTap: () async {
+                                    setState(() =>
+                                        FFAppState().temporaryImages = []);
                                     await showModalBottomSheet(
                                       isScrollControlled: true,
                                       backgroundColor: Colors.transparent,
