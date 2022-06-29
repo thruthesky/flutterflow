@@ -1,13 +1,11 @@
 import '../auth/auth_util.dart';
 import '../auth/firebase_user_provider.dart';
-import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../my_post_list_screen/my_post_list_screen_widget.dart';
 import '../post_create_screen/post_create_screen_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -42,7 +40,7 @@ class _AppHeaderComponentWidgetState extends State<AppHeaderComponentWidget> {
             Column(
               mainAxisSize: MainAxisSize.max,
               children: [
-                if (loggedIn ?? true)
+                if (!(loggedIn) ?? true)
                   Card(
                     clipBehavior: Clip.antiAliasWithSaveLayer,
                     color: Color(0xFFF5F5F5),
@@ -201,25 +199,6 @@ class _AppHeaderComponentWidgetState extends State<AppHeaderComponentWidget> {
                 );
               },
             ),
-            if (widget.displaySearchIcon ?? true)
-              FlutterFlowIconButton(
-                borderColor: Colors.transparent,
-                borderRadius: 30,
-                borderWidth: 1,
-                buttonSize: 50,
-                icon: Icon(
-                  Icons.search_sharp,
-                  color: FlutterFlowTheme.of(context).primaryText,
-                  size: 30,
-                ),
-                onPressed: () async {
-                  final usersUpdateData = createUsersRecordData(
-                    optionDisplaySearch: !(valueOrDefault(
-                        currentUserDocument?.optionDisplaySearch, false)),
-                  );
-                  await currentUserReference.update(usersUpdateData);
-                },
-              ),
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(0, 0, 5, 0),
               child: FlutterFlowIconButton(

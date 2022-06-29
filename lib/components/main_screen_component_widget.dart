@@ -62,81 +62,57 @@ class _MainScreenComponentWidgetState extends State<MainScreenComponentWidget> {
                     color: Colors.transparent,
                   ),
                 ),
-                StreamBuilder<UsersRecord>(
-                  stream: UsersRecord.getDocument(currentUserReference),
-                  builder: (context, snapshot) {
-                    // Customize what your widget looks like when it's loading.
-                    if (!snapshot.hasData) {
-                      return Center(
-                        child: SizedBox(
-                          width: 50,
-                          height: 50,
-                          child: CircularProgressIndicator(
-                            color: FlutterFlowTheme.of(context).primaryColor,
-                          ),
-                        ),
-                      );
-                    }
-                    final containerUsersRecord = snapshot.data;
-                    return Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: Colors.transparent,
+                Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                  ),
+                  child: Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(16, 16, 16, 0),
+                    child: TextFormField(
+                      controller: searchTextFieldController,
+                      onChanged: (_) => EasyDebounce.debounce(
+                        'searchTextFieldController',
+                        Duration(milliseconds: 2000),
+                        () => setState(() {}),
                       ),
-                      child: Visibility(
-                        visible:
-                            containerUsersRecord.optionDisplaySearch ?? true,
-                        child: Padding(
-                          padding:
-                              EdgeInsetsDirectional.fromSTEB(16, 16, 16, 0),
-                          child: TextFormField(
-                            controller: searchTextFieldController,
-                            onChanged: (_) => EasyDebounce.debounce(
-                              'searchTextFieldController',
-                              Duration(milliseconds: 2000),
-                              () => setState(() {}),
+                      onFieldSubmitted: (_) async {
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ForumSearchScreenWidget(
+                              word: searchTextFieldController.text,
                             ),
-                            onFieldSubmitted: (_) async {
-                              await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ForumSearchScreenWidget(
-                                    word: searchTextFieldController.text,
-                                  ),
-                                ),
-                              );
-                            },
-                            obscureText: false,
-                            decoration: InputDecoration(
-                              labelText: '노 코드가 궁금하시면 검색 ^^;',
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0xFFA1A1A1),
-                                  width: 1,
-                                ),
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0xFFA1A1A1),
-                                  width: 1,
-                                ),
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              prefixIcon: Icon(
-                                Icons.search_sharp,
-                              ),
-                            ),
-                            style:
-                                FlutterFlowTheme.of(context).bodyText1.override(
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w300,
-                                    ),
                           ),
+                        );
+                      },
+                      obscureText: false,
+                      decoration: InputDecoration(
+                        labelText: '노 코드가 궁금하시면 검색 ^^;',
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xFFA1A1A1),
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xFFA1A1A1),
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        prefixIcon: Icon(
+                          Icons.search_sharp,
                         ),
                       ),
-                    );
-                  },
+                      style: FlutterFlowTheme.of(context).bodyText1.override(
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w300,
+                          ),
+                    ),
+                  ),
                 ),
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(16, 16, 16, 0),
