@@ -39,33 +39,55 @@ class _AppHeaderComponentWidgetState extends State<AppHeaderComponentWidget> {
         child: Row(
           mainAxisSize: MainAxisSize.max,
           children: [
-            Container(
-              width: 54,
-              height: 54,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: Colors.transparent,
-                ),
-              ),
-              child: AuthUserStreamWidget(
-                child: Container(
-                  width: 54,
-                  height: 54,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                  ),
-                  child: CachedNetworkImage(
-                    imageUrl: valueOrDefault<String>(
-                      currentUserPhoto,
-                      'https://firebasestorage.googleapis.com/v0/b/flutter-flow-korea.appspot.com/o/app-assets%2Fnew-anonymous.png?alt=media&token=a548ff66-026d-4a16-b0dd-5187b8c7ca04',
+            Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                if (loggedIn ?? true)
+                  Card(
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    color: Color(0xFFF5F5F5),
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25),
                     ),
-                    fit: BoxFit.cover,
+                    child: Container(
+                      width: 54,
+                      height: 54,
+                      clipBehavior: Clip.antiAlias,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                      ),
+                      child: CachedNetworkImage(
+                        imageUrl:
+                            'https://firebasestorage.googleapis.com/v0/b/flutter-flow-korea.appspot.com/o/app-assets%2Fnew-anonymous.png?alt=media&token=a548ff66-026d-4a16-b0dd-5187b8c7ca04',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
-                ),
-              ),
+                if (loggedIn ?? true)
+                  Card(
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    color: Color(0xFFF5F5F5),
+                    elevation: 0,
+                    child: AuthUserStreamWidget(
+                      child: Container(
+                        width: 54,
+                        height: 54,
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                        ),
+                        child: CachedNetworkImage(
+                          imageUrl: valueOrDefault<String>(
+                            currentUserPhoto,
+                            'https://firebasestorage.googleapis.com/v0/b/flutter-flow-korea.appspot.com/o/app-assets%2Fnew-anonymous.png?alt=media&token=a548ff66-026d-4a16-b0dd-5187b8c7ca04',
+                          ),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
             ),
             Expanded(
               child: Padding(
@@ -74,19 +96,30 @@ class _AppHeaderComponentWidgetState extends State<AppHeaderComponentWidget> {
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AuthUserStreamWidget(
-                      child: Text(
-                        valueOrDefault<String>(
-                          currentUserDisplayName,
-                          '노 코드 앱 개발',
+                    if (loggedIn ?? true)
+                      AuthUserStreamWidget(
+                        child: Text(
+                          valueOrDefault<String>(
+                            currentUserDisplayName,
+                            '노 코드 앱 개발',
+                          ),
+                          style:
+                              FlutterFlowTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w300,
+                                  ),
                         ),
+                      ),
+                    if (!(loggedIn) ?? true)
+                      Text(
+                        '노 코드 앱 개발',
                         style: FlutterFlowTheme.of(context).bodyText1.override(
                               fontFamily: 'Poppins',
                               fontSize: 18,
                               fontWeight: FontWeight.w300,
                             ),
                       ),
-                    ),
                     if (!(loggedIn) ?? true)
                       Text(
                         '환영합니다. 로그인을 해 주세요.',
