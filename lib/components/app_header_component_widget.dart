@@ -49,8 +49,8 @@ class _AppHeaderComponentWidgetState extends State<AppHeaderComponentWidget> {
                       borderRadius: BorderRadius.circular(25),
                     ),
                     child: Container(
-                      width: 54,
-                      height: 54,
+                      width: 52,
+                      height: 52,
                       clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
@@ -69,8 +69,8 @@ class _AppHeaderComponentWidgetState extends State<AppHeaderComponentWidget> {
                     elevation: 0,
                     child: AuthUserStreamWidget(
                       child: Container(
-                        width: 54,
-                        height: 54,
+                        width: 52,
+                        height: 52,
                         clipBehavior: Clip.antiAlias,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
